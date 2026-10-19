@@ -58,23 +58,6 @@ html,body { height:100%; background:var(--bg); color:var(--cream); font-family:v
     font-size: 10px;
     letter-spacing: 2px;
   }
-  .lang-switch {
-    position: static;
-    margin-left: auto;
-    box-shadow: none;
-    opacity: 1;
-  }
-  @media (max-width: 1024px) {
-  .lang-switch {
-    position: fixed;
-    right: 16px;
-    bottom: 16px;
-    z-index: 100;
-    margin: 0;
-    box-shadow: 3px 3px 0 var(--dark);
-    opacity: .95;
-  }
-}
   .lang-btn { padding: 5px 8px; font-size: 10px; letter-spacing: 1px; }
   .comms-screen { box-shadow: none; }
   .view-head { padding: 8px 12px; font-size: 11px; }
@@ -280,7 +263,7 @@ html,body { height:100%; background:var(--bg); color:var(--cream); font-family:v
   font-family:var(--font-head); font-size:10px; letter-spacing:2px; cursor:pointer; transition:all .15s;
   display:none; flex-shrink:0; z-index:20; }
 .jump-latest-btn:hover { background:var(--red); color:#fff; }
-.screen-tabs { position:relative; z-index:6; flex-shrink:0; display:grid; grid-template-columns:1fr 1fr;
+.screen-tabs { position:relative; z-index:16; flex-shrink:0; display:grid; grid-template-columns:1fr 1fr;
   background:var(--dark); border-top:3px solid var(--amber); }
 .screen-tabs button { position:relative; padding:14px 8px; background:var(--dark); border:none;
   border-right:3px solid var(--amber); color:var(--amber); font-family:var(--font-head);
@@ -461,6 +444,52 @@ html,body { height:100%; background:var(--bg); color:var(--cream); font-family:v
   outline: 2px solid var(--amber);
   outline-offset: 2px;
 }
+/* 设置里的语言切换 */
+.lang-setting-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+.lang-setting-btn {
+  padding: 12px 0;
+  background: #fff;
+  border: 2px solid var(--dark);
+  box-shadow: 3px 3px 0 var(--dark);
+  font-family: var(--font-head);
+  font-size: 12px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  color: var(--dark);
+  transition: all .1s;
+}
+.lang-setting-btn:hover { background: var(--amber); }
+.lang-setting-btn.active {
+  background: var(--red);
+  color: #fff;
+}
+
+/* 平板和手机隐藏右下角语言切换*/
+@media (max-width: 1024px) {
+  .lang-switch { display: none !important; }
+}
+
+/* 平板两列布局时压缩通讯器 UI，避免底部按钮被挤 */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .comms { padding: 12px; }
+  .comms-top { padding: 10px 12px; gap: 8px; margin-bottom: 10px; }
+  .comms-top h1 { font-size: 16px; letter-spacing: 4px; }
+  .comms-top .reset-btn,
+  .comms-top .menu-btn { padding: 5px 10px; font-size: 10px; letter-spacing: 2px; }
+  .screen-tabs button { padding: 12px 6px; font-size: 11px; letter-spacing: 3px; }
+  .contact-item { padding: 10px 12px; margin-bottom: 8px; }
+  .contact-item .c-ava { width: 40px; height: 40px; }
+  .contact-item .c-name { font-size: 13px; }
+  .chat-head { padding: 10px 14px; }
+  .bubble { font-size: 12px; padding: 10px 12px; }
+  .opt { font-size: 12px; padding: 10px 14px 10px 34px; }
+}
+
 </style>
 </head>
 <body>
@@ -3646,7 +3675,8 @@ const UI_I18N = {
       <p class="dim">手动存档：6 个槽位。点击空槽保存；点击已占用槽读取/删除。</p>
       <h3>Tips</h3>
       <p class="dim">按 D 键显示调试信息。</p>
-      <p class="dim">右下角可切换 中文 / EN / 日本語。</p>`,
+      <p class="dim">语言切换：电脑端位于右下角；平板/手机端请打开菜单 → 设置。</p>
+      <p class="dim">通讯器扫描线效果可在菜单 → 设置中关闭。</p>`,
     introCredits: `<p>《索拉里斯海》是一部以塔可夫斯基《飞向太空》为灵感制作的沉浸式文字互动游戏；</p>
       <p>游戏系《刀剑乱舞》的非官方同人作品，完全免费；</p>
       <p class="dim">游戏制作者：97（xhs@锫的第八个电子）；</p>
@@ -3695,7 +3725,8 @@ const UI_I18N = {
       <p class="dim">Manual save: 6 slots. Click empty to save; click filled to load/delete.</p>
       <h3>Tips</h3>
       <p class="dim">Press D to view debug info.</p>
-      <p class="dim">Switch language with the bottom-right buttons (中文 / EN / 日本語).</p>`,
+      <p class="dim">Language switch: bottom-right corner on desktop; open Menu → Settings on tablet/mobile.</p>
+      <p class="dim">Comm screen scanlines can be turned off in Menu → Settings.</p>`,
     introCredits: `<p><i>The Solaris Sea</i> is an immersive text-based interactive game inspired by Tarkovsky's <i>Solaris</i>.</p>
       <p>This is an unofficial fan work of <i>Touken Ranbu</i>, completely free.</p>
       <p class="dim">Creator: 97 (xhs@锫的第八个电子)</p>
@@ -3744,7 +3775,8 @@ const UI_I18N = {
       <p class="dim">手動セーブ：6スロット。空きをクリックで保存、使用中をクリックで読込/削除。</p>
       <h3>Tips</h3>
       <p class="dim">Dキーでデバッグ情報を表示。</p>
-      <p class="dim">右下のボタンで 中文 / EN / 日本語 を切り替え。</p>`,
+      <p class="dim">言語切り替え：PC は右下、タブレット/スマホは「メニュー → 設定」から。</p>
+      <p class="dim">通信機の走査線は「メニュー → 設定」でオフにできます。</p>`,
     introCredits: `<p>『ソラリスの海』は、タルコフスキー『惑星ソラリス』にインスパイアされた没入型テキストインタラクティブゲームです。</p>
       <p>本作は『刀剣乱舞』の非公式同人作品で、完全無料です。</p>
       <p class="dim">ゲーム制作者：97（xhs@锫的第八个电子）</p>
@@ -4642,22 +4674,18 @@ function setupResponsiveLayout() {
   if (mobile === isMobileLayout) return;
   isMobileLayout = mobile;
 
-  const commsTop = document.querySelector('.comms-top');
   const viewContacts = document.getElementById('viewContacts');
   const screenTabs = document.querySelector('.screen-tabs');
   const formBtn = document.getElementById('formToggleBtn');
   const nextBtn = document.getElementById('playerNextDayBtn');
-  const langSwitch = document.querySelector('.lang-switch');
   const musicPlayer = document.getElementById('musicPlayer');
   const btnChat = document.getElementById('btnChat');
 
   if (mobile) {
     if (!formBtn._originalParent) formBtn._originalParent = formBtn.parentElement;
     if (!nextBtn._originalParent) nextBtn._originalParent = nextBtn.parentElement;
-    if (!langSwitch._originalParent) langSwitch._originalParent = langSwitch.parentElement;
     if (!musicPlayer._originalParent) musicPlayer._originalParent = musicPlayer.parentElement;
 
-    commsTop.appendChild(langSwitch);
     const viewHead = viewContacts.querySelector('.view-head');
     viewContacts.insertBefore(formBtn, viewHead.nextSibling);
     screenTabs.appendChild(nextBtn);
@@ -4666,7 +4694,6 @@ function setupResponsiveLayout() {
   } else {
     if (formBtn._originalParent) formBtn._originalParent.appendChild(formBtn);
     if (nextBtn._originalParent) nextBtn._originalParent.appendChild(nextBtn);
-    if (langSwitch._originalParent) langSwitch._originalParent.appendChild(langSwitch);
     if (musicPlayer._originalParent) musicPlayer._originalParent.appendChild(musicPlayer);
     btnChat.style.display = '';
   }
@@ -5048,10 +5075,10 @@ function renderMenuTab(tab, content) {
   } else if (tab === 'settings') {
     const scanOff = localStorage.getItem('sol_scan_off') === '1';
     const L = {
-      zh: { title: '显示设置', scan: '通讯器扫描线效果', desc: '关闭后，通讯器将不再显示横向扫描线。' },
-      en: { title: 'Display', scan: 'Comm screen scanlines', desc: 'When off, the horizontal scanlines are hidden.' },
-      ja: { title: '表示設定', scan: '通信機の走査線', desc: 'オフにすると横方向の走査線が非表示になります。' }
-    }[state.lang] || { title: '显示设置', scan: '通讯器扫描线效果', desc: '关闭后，通讯器将不再显示横向扫描线。' };
+      zh: { title: '显示设置', scan: '通讯器扫描线效果', desc: '关闭后，通讯器将不再显示横向扫描线。', langTitle: '语言' },
+      en: { title: 'Display', scan: 'Comm screen scanlines', desc: 'When off, the horizontal scanlines are hidden.', langTitle: 'Language' },
+      ja: { title: '表示設定', scan: '通信機の走査線', desc: 'オフにすると横方向の走査線が非表示になります。', langTitle: '言語' }
+    }[state.lang] || { title: '显示设置', scan: '通讯器扫描线效果', desc: '关闭后，通讯器将不再显示横向扫描线。', langTitle: '语言' };
 
     content.innerHTML = `<div class="credits-body">
       <h3>${L.title}</h3>
@@ -5061,6 +5088,13 @@ function renderMenuTab(tab, content) {
         <span class="ios-toggle-track"><span class="ios-toggle-thumb"></span></span>
       </label>
       <p class="dim">${L.desc}</p>
+
+      <h3 style="margin-top:20px;">${L.langTitle}</h3>
+      <div class="lang-setting-row">
+        <button class="lang-setting-btn ${state.lang === 'zh' ? 'active' : ''}" data-lang="zh">中文</button>
+        <button class="lang-setting-btn ${state.lang === 'en' ? 'active' : ''}" data-lang="en">EN</button>
+        <button class="lang-setting-btn ${state.lang === 'ja' ? 'active' : ''}" data-lang="ja">日本語</button>
+      </div>
     </div>`;
 
     document.getElementById('scanToggle').addEventListener('change', (e) => {
@@ -5072,10 +5106,18 @@ function renderMenuTab(tab, content) {
         document.querySelectorAll('.crt-scan').forEach(el => el.style.display = 'none');
       }
     });
+
+    content.querySelectorAll('.lang-setting-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchLanguage(btn.dataset.lang);
+        renderMenuTab('settings', content);
+      });
+    });
   } else if (tab === 'credits') {
     content.innerHTML = `<div class="credits-body">${T('creditsMenu')}</div>`;
   }
 }
+
 function renderSaveGrid(type) {
   let html = '<div class="save-grid">';
   for (let i = 0; i < SAVE_SLOTS; i++) {
