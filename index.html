@@ -374,7 +374,6 @@ const SCENES = {
   stationDusk:  { label: '03', cn: '晚霞',   mode: 'dusk'  },
   stationNight: { label: '04', cn: '极夜',   mode: 'night' }
 };
-const TAG_ORDER = ['古典', '流行', '摇滚', '电子', '爵士', '无歌词', '中文', '日文', '英文'];
 const DESTINED_NPCS = [
   { id: 'mikazuki', name: '三日月宗近' },
   { id: 'hasebe',   name: '压切长谷部' },
@@ -3964,44 +3963,11 @@ window.addEventListener('resize', () => {
    ★ 音乐
    ============================================================ */
 const MUSIC_LIBRARY = [
-  { name: '大塚宗一郎 - 23话', src: 'audio/大塚宗一郎 - 23话.mp3', style: ['流行'], lyrics: ['无歌词'] },
-  { name: '川井憲次 - M01 謡I-Making of Cyborg', src: 'audio/川井憲次 - M01 謡I-Making of Cyborg.mp3', style: ['流行'], lyrics: ['日文'] },
-  { name: '窦唯,朝简 - 下雨了', src: 'audio/窦唯,朝简 - 下雨了.mp3', style: ['摇滚'], lyrics: ['中文'] },
-  { name: '冨田勲 - 展覧会の絵 死せる言葉による死者への話しかけ', src: 'audio/冨田勲 - 展覧会の絵 死せる言葉による死者への話しかけ.mp3', style: ['古典'], lyrics: ['无歌词'] },
-  { name: '莫非定律乐团 - Red Berry（小红莓）', src: 'audio/莫非定律乐团 - Red Berry（小红莓）.mp3', style: ['流行'], lyrics: ['英文'] },
-  { name: '内田温 - 少年めぐる', src: 'audio/内田温 - 少年めぐる.mp3', style: ['流行'], lyrics: ['日文'] },
-  { name: 'うないぐみ - 弥勒世果報 - undercooled', src: 'audio/うないぐみ - 弥勒世果報 - undercooled.mp3', style: ['流行'], lyrics: ['日文'] },
-  { name: '菅野よう子 - Moon', src: 'audio/菅野よう子 - Moon.mp3', style: ['流行'], lyrics: ['日文'] },
-  { name: 'Deister Orchestra - Saccharine Song in 19edo', src: 'audio/Deister Orchestra - Saccharine Song in 19edo.mp3', style: ['电子'], lyrics: ['无歌词'] },
-  { name: 'Dottie Evans,Audrey Marsh - Tonight You Belong to Me', src: 'audio/Dottie Evans,Audrey Marsh - Tonight You Belong to Me.mp3', style: ['爵士'], lyrics: ['英文'] },
-  { name: 'Infinity Frequencies - Watching', src: 'audio/Infinity Frequencies - Watching.mp3', style: ['电子'], lyrics: ['无歌词'] },
-  { name: 'Max Mathews - Daisy Bell', src: 'audio/Max Mathews - Daisy Bell.mp3', style: ['电子'], lyrics: ['英文'] },
-  { name: 'Ólafur Arnalds - 3326', src: 'audio/Ólafur Arnalds - 3326.mp3', style: ['古典'], lyrics: ['无歌词'] },
-  { name: 'Claude Debussy - Clair De Lune', src: 'audio/Claude Debussy - Clair De Lune.mp3', style: ['古典'], lyrics: ['无歌词'] },
-  { name: 'Arthur Rubinstein - Nocturne No. 15 in F Minor, Op. 55, No. 1', src: 'audio/Arthur Rubinstein - Nocturne No. 15 in F Minor, Op. 55, No. 1.mp3', style: ['古典'], lyrics: ['无歌词'] },
-  { name: 'Herbert von Karajan,Berliner Philharmoniker - Symphony No.9 in E minor, Op.95 From the New World II.Largo', src: 'audio/Herbert von Karajan,Berliner Philharmoniker - Symphony No.9 in E minor, Op.95 From the New World II.Largo.mp3', style: ['古典'], lyrics: ['无歌词'] },
-  { name: 'Santo & Johnny - Sleepwalk', src: 'audio/Santo & Johnny - Sleepwalk.mp3', style: ['爵士'], lyrics: ['无歌词'] },
-  { name: 'Dave Brubeck - Take Five', src: 'audio/Dave Brubeck - Take Five.mp3', style: ['爵士'], lyrics: ['无歌词'] },
-  { name: 'Frank Sinatra - Fly Me to the Moon', src: 'audio/Frank Sinatra - Fly Me to the Moon.mp3', style: ['爵士'], lyrics: ['英文'] },
-  { name: 'Grover Washington, Jr.,Bill Withers - Just the Two of Us', src: 'audio/Grover Washington, Jr.,Bill Withers - Just the Two of Us.mp3', style: ['爵士'], lyrics: ['英文'] },
-  { name: 'Louis Armstrong - What A Wonderful World (Single Version)', src: 'audio/Louis Armstrong - What A Wonderful World (Single Version).mp3', style: ['爵士'], lyrics: ['英文'] },
-  { name: 'Louis Armstrong,Ella Fitzgerald - Autumn In New York', src: 'audio/Louis Armstrong,Ella Fitzgerald - Autumn In New York.mp3', style: ['爵士'], lyrics: ['英文'] },
-  { name: 'Skinshape - Dreams of Panama', src: 'audio/Skinshape - Dreams of Panama.mp3', style: ['摇滚'], lyrics: ['无歌词'] },
-  { name: 'The Rah Band - Messages from the Stars', src: 'audio/The Rah Band - Messages from the Stars.mp3', style: ['流行'], lyrics: ['英文'] },
-  { name: 'The Beatles - Lucy In The Sky With Diamonds (Remastered)', src: 'audio/The Beatles - Lucy In The Sky With Diamonds (Remastered).mp3', style: ['摇滚'], lyrics: ['英文'] },
-  { name: 'Pink Floyd - Wish You Were Here', src: 'audio/Pink Floyd - Wish You Were Here.mp3', style: ['摇滚'], lyrics: ['英文'] },
-  { name: 'Pink Floyd - Brain Damage', src: 'audio/Pink Floyd - Brain Damage.mp3', style: ['摇滚'], lyrics: ['英文'] },
-  { name: 'Pink Floyd - Eclipse', src: 'audio/Pink Floyd - Eclipse.mp3', style: ['摇滚'], lyrics: ['英文'] },
-  { name: 'Michael Jackson - Break of Dawn', src: 'audio/Michael Jackson - Break of Dawn.mp3', style: ['摇滚'], lyrics: ['英文'] },
-  { name: 'Michael Jackson - Whatever Happens', src: 'audio/Michael Jackson - Whatever Happens.mp3', style: ['摇滚'], lyrics: ['英文'] },
-  { name: 'Led Zeppelin - Stairway to Heaven (Remaster)', src: 'audio/Led Zeppelin - Stairway to Heaven (Remaster).mp3', style: ['摇滚'], lyrics: ['英文'] },
-  { name: 'Queen - Bohemian Rhapsody', src: 'audio/Queen - Bohemian Rhapsody.mp3', style: ['摇滚'], lyrics: ['英文'] },
-  { name: 'Vangelis - Tears In Rain', src: 'audio/Vangelis - Tears In Rain.mp3', style: ['电子'], lyrics: ['无歌词'] },
-  { name: '조영욱 - Happy Birthday', src: 'audio/조영욱 - Happy Birthday.mp3', style: ['古典'], lyrics: ['无歌词'] },
-  { name: 'illion - BRAIN DRAIN', src: 'audio/illion - BRAIN DRAIN.mp3', style: ['流行'], lyrics: ['英文'] },
-  { name: 'きくお - 幻', src: 'audio/きくお - 幻.mp3', style: ['流行'], lyrics: ['无歌词'] },
-  { name: 'きくお,初音ミク - 君が死んでも許してあげるよ', src: 'audio/きくお,初音ミク - 君が死んでも許してあげるよ.mp3', style: ['流行'], lyrics: ['日文'] },
-  { name: 'きくお,初音ミク - Sea is', src: 'audio/きくお,初音ミク - Sea is.mp3', style: ['流行'], lyrics: ['日文'] }
+  { name: 'Max Mathews - Daisy Bell', src: 'audio/Max Mathews - Daisy Bell.mp3'},
+  { name: 'Arthur Rubinstein - Nocturne No. 15 in F Minor, Op. 55, No. 1', src: 'audio/Arthur Rubinstein - Nocturne No. 15 in F Minor, Op. 55, No. 1.mp3'},
+  { name: 'Dottie Evans,Audrey Marsh - Tonight You Belong to Me', src: 'audio/Dottie Evans,Audrey Marsh - Tonight You Belong to Me.mp3'},
+  { name: 'Galimatias - Room 332', src: 'audio/Galimatias - Room 332.mp3'},
+  { name: 'Michael Jackson - Whatever Happens', src: 'audio/Michael Jackson - Whatever Happens.mp3'}
 ];
 
 let _silentAudioUrl = null;
@@ -4068,22 +4034,7 @@ function renderMusicFilters() {
   const box = document.getElementById('mpFilters');
   if (!box) return;
   box.innerHTML = '';
-  const allBtn = document.createElement('button');
-  allBtn.className = 'mp-filter' + (music.filterTag === null ? ' active' : '');
-  allBtn.textContent = '全部';
-  allBtn.addEventListener('click', () => { music.filterTag = null; recomputeTracks(); renderMusicFilters(); });
-  box.appendChild(allBtn);
-  TAG_ORDER.forEach(tag => {
-    const b = document.createElement('button');
-    b.className = 'mp-filter' + (music.filterTag === tag ? ' active' : '');
-    b.textContent = tag;
-    b.addEventListener('click', () => {
-      music.filterTag = music.filterTag === tag ? null : tag;
-      recomputeTracks();
-      renderMusicFilters();
-    });
-    box.appendChild(b);
-  });
+  box.style.display = 'none';
 }
 function addTracks(fl) {
   if (!fl || !fl.length) return;
@@ -4093,35 +4044,7 @@ function addTracks(fl) {
   if (wasEmpty && music.tracks.length) loadTrack(0);
 }
 function recomputeTracks() {
-  let list = [...music.allTracks];
-
-  // 问卷偏好 → 曲库标签映射
-  const styleMap = {
-    '古典或纯音乐': '古典',
-    '摇滚': '摇滚',
-    '流行': '流行',
-    '三者都有': null
-  };
-  const lyricMap = {
-    '无歌词或有实验性采样': '无歌词',
-    '日文': '日文',
-    '英文': '英文',
-    '三者均可': null
-  };
-  const wantStyle = styleMap[music.preferredStyle] ?? null;
-  const wantLyric = lyricMap[music.preferredLyrics] ?? null;
-  if (wantStyle) list = list.filter(t => (t.style || []).includes(wantStyle));
-  if (wantLyric) list = list.filter(t => (t.lyrics || []).includes(wantLyric));
-
-  // 手动标签过滤
-  if (music.filterTag) {
-    list = list.filter(t =>
-      (t.style || []).includes(music.filterTag) ||
-      (t.lyrics || []).includes(music.filterTag)
-    );
-  }
-
-  music.tracks = list;
+  music.tracks = [...music.allTracks];
   music.currentIndex = 0;
 
   if (!music.tracks.length) {
@@ -4187,7 +4110,7 @@ function toggleMode() {
 }
 function updateMpStatus() {
   const t = document.getElementById('mpStatus');
-  if (t) t.textContent = `${music.tracks.length} / ${music.allTracks.length} 首 · ${music.mode}`;
+  if (t) t.textContent = `共 ${music.allTracks.length} 首 · ${music.mode}`;
 }
 
 /* ============================================================
@@ -4748,8 +4671,7 @@ function resolveSelectedNpc() {
 function applyMusicPreference(answers) {
   music.preferredStyle = answers.musicStyle || null;
   music.preferredLyrics = answers.musicLyrics || null;
-  recomputeTracks();
-  renderMusicFilters();
+
 }
 
 /* ============================================================
