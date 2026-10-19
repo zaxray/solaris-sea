@@ -19,24 +19,8 @@
   --font-head:'Archivo Black','Oswald','Noto Sans SC','Microsoft YaHei',sans-serif;
   --font-tech:'Oswald','Noto Sans SC',sans-serif;
   --font-body:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; }
-html, body {
-  height: 100%;
-  width: 100%;
-  background: var(--bg);
-  color: var(--cream);
-  font-family: var(--font-body);
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
-#app {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
+html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); font-family:var(--font-body); overflow:hidden; -webkit-font-smoothing:antialiased; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+#app { display:grid; grid-template-columns:2fr 1fr; height:100%; width:100%; overflow:hidden; }
 .stage { position:relative; background:#04060a; overflow:hidden; }
 .scene-layer { position:absolute; inset:0; opacity:0; transition:opacity .9s ease; pointer-events:none; }
 .scene-layer svg { width:100%; height:100%; display:block; }
@@ -51,101 +35,7 @@ html, body {
 @keyframes camLed{0%,42%,100%{opacity:1}50%,92%{opacity:.1}}
 .cam-led{animation:camLed 2.6s ease-in-out infinite}
 
-@media (max-width: 768px) {
-  #app {
-    grid-template-columns: 1fr;
-    grid-template-rows: 100vh;
-  }
-  .stage { display: none; }
-  .comms {
-    border-left: none;
-    box-shadow: none;
-    padding: 8px;
-  }
-  .comms-top {
-    margin-bottom: 8px;
-    padding: 10px 12px;
-    gap: 8px;
-  }
-  .comms-top h1 { font-size: 16px; letter-spacing: 4px; }
-  .comms-top .reset-btn,
-  .comms-top .menu-btn {
-    padding: 5px 10px;
-    font-size: 10px;
-    letter-spacing: 2px;
-  }
-  .lang-btn { padding: 5px 8px; font-size: 10px; letter-spacing: 1px; }
-  .comms-screen { box-shadow: none; }
-  .view-head { padding: 8px 12px; font-size: 11px; }
-  .contact-list { padding: 8px; }
-  .contact-item { padding: 10px 12px; margin-bottom: 8px; }
 
-  /* 对话头部：返回按钮在左，文字在右，头像在最右 */
-  .chat-head { padding: 8px 10px; gap: 8px; }
-  .chat-back-btn { display: block; order: 0; }
-  .chat-head .head-info {
-    order: 1;
-    flex: 1;
-    text-align: right;
-    margin-right: 8px;
-  }
-  .chat-head .avatar { order: 2; width: 36px; height: 36px; }
-  .chat-head .speaker-name { font-size: 14px; }
-  .chat-head .speaker-role { font-size: 9px; }
-
-  .chat-history { padding: 10px 8px 6px; }
-  .bubble { max-width: 90%; padding: 10px 12px; font-size: 12px; margin-bottom: 10px; }
-  .chat-options { padding: 8px 10px 10px; gap: 8px; max-height: 40vh; }
-  .opt { padding: 10px 14px 10px 32px; font-size: 12px; }
-
-  /* 底部栏：联系人 + 下一日 并排 */
-  .screen-tabs { display: flex; }
-  .screen-tabs button { flex: 1; padding: 10px 8px; font-size: 11px; letter-spacing: 3px; }
-  .next-day-btn {
-    position: static;
-    display: block;
-    padding: 10px 8px;
-    font-size: 11px;
-    letter-spacing: 3px;
-    border: none;
-    border-left: 3px solid var(--amber);
-    box-shadow: none;
-    transform: none;
-  }
-  .next-day-btn:hover { transform: none; box-shadow: none; }
-  .next-day-btn .sub,
-  .form-toggle-btn .sub { display: none; }
-
-  /* 表格按钮：联系人视图顶部，整行 */
-  .form-toggle-btn {
-    position: static;
-    display: block;
-    width: calc(100% - 16px);
-    margin: 8px;
-    padding: 10px;
-    font-size: 12px;
-    letter-spacing: 3px;
-    box-shadow: 3px 3px 0 var(--dark);
-    transform: none;
-  }
-  .form-toggle-btn:hover { transform: none; box-shadow: 3px 3px 0 var(--dark); }
-
-  /* 音乐播放器 */
-  .music-player {
-    position: static;
-    width: calc(100% - 16px);
-    margin: 8px;
-    max-height: none;
-    box-shadow: 3px 3px 0 var(--dark);
-  }
-
-  .modal-box { padding: 20px 18px 24px; width: 94vw; max-height: 88vh; }
-  .modal-head { font-size: 18px; letter-spacing: 4px; }
-  .form-label { font-size: 13px; }
-  .form-opt { padding: 10px 12px; font-size: 13px; }
-  .save-grid { grid-template-columns: 1fr; }
-  .menu-tab { font-size: 11px; padding: 10px 6px; }
-}
 
 .form-toggle-btn { position:absolute; left:26px; bottom:400px; z-index:22; padding:14px 26px;
   background:var(--red); color:#fff; border:3px solid var(--dark); box-shadow:5px 5px 0 var(--dark);
@@ -508,6 +398,112 @@ html, body {
 @supports (height: 100dvh) {
   html, body { height: 100dvh; }
 }
+@supports (height: 100dvh) {
+  html, body, #app { height: 100dvh; }
+  @media (max-width: 768px) {
+    #app { grid-template-rows: 100dvh; }
+  }
+}
+
+/* ============================================================
+   移动端媒体查询
+   ============================================================ */
+@media (max-width: 768px) {
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 100%;
+  }
+  .stage { display: none; }
+  .comms {
+    border-left: none;
+    box-shadow: none;
+    padding: 8px;
+  }
+  .comms-top {
+    margin-bottom: 8px;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .comms-top h1 { font-size: 16px; letter-spacing: 4px; }
+  .comms-top .reset-btn,
+  .comms-top .menu-btn {
+    padding: 5px 10px;
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+  .lang-btn { padding: 5px 8px; font-size: 10px; letter-spacing: 1px; }
+  .comms-screen { box-shadow: none; }
+  .view-head { padding: 8px 12px; font-size: 11px; }
+  .contact-list { padding: 8px; }
+  .contact-item { padding: 10px 12px; margin-bottom: 8px; }
+
+  /* 对话头部：返回按钮在左，文字在右，头像在最右 */
+  .chat-head { padding: 8px 10px; gap: 8px; }
+  .chat-back-btn {
+    display: block !important;
+    order: 0;
+    font-size: 30px;
+    padding: 0 10px 2px 0;
+  }
+  .chat-head .head-info {
+    order: 1;
+    flex: 1;
+    text-align: right;
+    margin-right: 8px;
+  }
+  .chat-head .avatar { order: 2; width: 36px; height: 36px; }
+  .chat-head .speaker-name { font-size: 14px; }
+  .chat-head .speaker-role { font-size: 9px; }
+
+  .chat-history { padding: 10px 8px 6px; }
+  .bubble { max-width: 90%; padding: 10px 12px; font-size: 12px; margin-bottom: 10px; }
+  .chat-options { padding: 8px 10px 10px; gap: 8px; max-height: 40vh; }
+  .opt { padding: 10px 14px 10px 32px; font-size: 12px; }
+
+  /* 底部栏：联系人 + 下一日 并排，隐藏“对话”标签 */
+  .screen-tabs { display: flex; }
+  .screen-tabs button { flex: 1; padding: 10px 8px; font-size: 11px; letter-spacing: 3px; }
+  #btnChat { display: none !important; }
+  .next-day-btn {
+    position: static !important;
+    display: block;
+    padding: 10px 8px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    border: none;
+    border-left: 3px solid var(--amber);
+    box-shadow: none;
+    transform: none;
+  }
+  .next-day-btn:hover { transform: none; box-shadow: none; }
+  .next-day-btn .sub,
+  .form-toggle-btn .sub { display: none; }
+
+  /* 表格按钮：联系人视图顶部，整行 */
+  .form-toggle-btn {
+    position: static !important;
+    display: block;
+    width: calc(100% - 16px);
+    margin: 8px;
+    padding: 10px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    box-shadow: 3px 3px 0 var(--dark);
+    transform: none;
+  }
+  .form-toggle-btn:hover { transform: none; box-shadow: 3px 3px 0 var(--dark); }
+
+  /* 手机端不需要音乐播放器 */
+  .music-player { display: none !important; }
+
+  .modal-box { padding: 20px 18px 24px; width: 94vw; max-height: 88vh; }
+  .modal-head { font-size: 18px; letter-spacing: 4px; }
+  .form-label { font-size: 13px; }
+  .form-opt { padding: 10px 12px; font-size: 13px; }
+  .save-grid { grid-template-columns: 1fr; }
+  .menu-tab { font-size: 11px; padding: 10px 6px; }
+}
+
 </style>
 </head>
 <body>
@@ -1095,7 +1091,7 @@ const STORY_ZH = {
         options: [{ text: '要帮忙吗？我知道了', next: 'd2_b8b', effect: { love: 1 } }, { text: '真拿你没办法啊', next: 'd2_b8b', effect: { love: 1 } }, { text: '乖乖地呆在房间里不好吗？', next: 'd2_b8' }] },
       d2_b8: { text: '就算您这么说，我也……', extra: ['抱歉，就算要招致主人的冷眼，我也有要跟随在您身边的理由。', '我会尽可能不给您添麻烦的。'],
         options: [{ text: '好吧……我都快忘了你一直这么固执', next: 'd2_b8b', effect: { love: 1 } }] },
-      d2_b8b: { text: '您怎么了吗？', extra: ['为什么不说话？'],
+      d2_b8b: { text: '……', extra: ['您怎么了吗？','为什么不说话？'],
         options: [{ text: '你的衣服连在一起了', next: 'd2_b9', effect: { paranoid: 1, horror: 1 } }, { text: '没什么，别管它了（用剪刀剪开布料）', next: 'd2_b9b' }] },
       d2_b9: { text: '什么？我不明白。', extra: ['衣服不就是由高分子化合物通过特定工艺，使分子链沿特定方向排列而形成的片或线状材料的集合体吗？', '它应该是连在一起的，不是吗？'],
         options: [{ text: '我说的不是这个意思……', next: 'd2_b9c' }, { text: '没什么，别管它了（用剪刀剪开布料）', next: 'd2_b9b' }] },
@@ -1909,8 +1905,8 @@ const STORY_EN = {
       d2_b8: { text: 'Even if you say that, I...',
         extra: ['Forgive me. Even if it earns my master\'s cold gaze, I have my reasons for staying by your side.', 'I will try not to cause you trouble.'],
         options: [{ text: 'Fine... I\'d almost forgotten how stubborn you\'ve always been.' }] },
-      d2_b8b: { text: 'Is something wrong?',
-        extra: ['Why are you silent?'],
+      d2_b8b: { text: '……',
+        extra: [ 'Is something wrong?','Why are you silent?'],
         options: [{ text: 'Your clothes are fused together.' }, { text: 'Never mind. Forget it. (Cuts the fabric with scissors.)' }] },
       d2_b9: { text: 'What? I don\'t understand.',
         extra: ['Aren\'t clothes simply assemblages of sheet- or thread-like materials, formed from polymer compounds through specific processes that align molecular chains in a particular direction?', 'They should be connected, shouldn\'t they?'],
@@ -3022,8 +3018,8 @@ const STORY_JA = {
       d2_b8: { text: 'そう言われましても、俺は……',
         extra: ['申し訳ありません。たとえ主の冷たい視線を浴びることになっても、あなたのそばにいる理由が俺にはあるのです。', 'できるだけ、ご迷惑はおかけしません。'],
         options: [{ text: 'わかった……お前がずっとこんなに頑固だったことを、忘れかけていたよ。' }] },
-      d2_b8b: { text: 'どうされましたか？',
-        extra: ['なぜ黙っているのですか？'],
+      d2_b8b: { text: '……',
+        extra: ['どうされましたか？','なぜ黙っているのですか？'],
         options: [{ text: 'お前の服が繋がっている。' }, { text: '何でもない、気にするな。（ハサミで布を切る。）' }] },
       d2_b9: { text: '何？俺にはわからない。',
         extra: ['衣服とは、高分子化合物が特定の工程を経て、分子鎖を特定の方向に配列させて形成された、シート状あるいは線状の材料の集合体ではないのですか？', '繋がっているのが当然では？'],
@@ -4390,6 +4386,7 @@ const elTear = document.getElementById('crtTear');
 const elJumpBtn = document.getElementById('jumpLatestBtn');
 
 function updateView() {
+  const chatBackBtn = document.getElementById('chatBackBtn');
   if (state.view === 'contacts') {
     elViewContacts.style.display = 'flex';
     elViewChat.style.display = 'none';
@@ -4402,6 +4399,7 @@ function updateView() {
     elBtnContacts.dataset.active = 'false';
     elBtnChat.dataset.active = 'true';
   }
+  if (chatBackBtn) chatBackBtn.style.display = isMobileLayout ? 'block' : 'none';
   updateJumpButton();
   updateDebug();
 }
@@ -4472,6 +4470,34 @@ function enterChat(charId) {
   elName.textContent = charName(charId);
   elRole.textContent = charRole(charId);
 
+  // ★ 山姥切 day 2：先看到 d2_n0 无应答，之后近侍完成舱外作业 → 允许重入 d2_n1
+  if (charId === 'naginata'
+      && state.day === 2
+      && state.progress[charId] === 'd2_n0'
+      && (visitedNode('hasebe','d2_b9b')
+       || visitedNode('mikazuki','d2_m9b')
+       || visitedNode('ichigo','d2_i9'))) {
+    if (state.history[charId]) {
+      state.history[charId] = state.history[charId].filter(m => m.day !== state.day);
+    }
+    startNode(charId, 'd2_n1');
+    return;
+  }
+
+  // ★ 同田贯 day 2：先看到 d2_t0 无应答，之后近侍血场景完成 → 允许重入 d2_t1
+  if (charId === 'doudanuki'
+      && state.day === 2
+      && state.progress[charId] === 'd2_t0'
+      && (visitedNode('hasebe','d2_b12')
+       || visitedNode('mikazuki','d2_m13')
+       || visitedNode('ichigo','d2_i15'))) {
+    if (state.history[charId]) {
+      state.history[charId] = state.history[charId].filter(m => m.day !== state.day);
+    }
+    startNode(charId, 'd2_t1');
+    return;
+  }
+
   const msgs = state.history[charId] || [];
   const lastMsg = msgs[msgs.length - 1];
   const startedNewDay = lastMsg && lastMsg.day < state.day;
@@ -4485,9 +4511,37 @@ function enterChat(charId) {
     if (entry) state.progress[charId] = entry;
     if (state.progress[charId]) { startNode(charId, state.progress[charId]); return; }
   }
+
+
+  const NEAR_NPC_REENTRY = {
+    hasebe:   { bloodEntry: 'd2_b10' },
+    mikazuki: { bloodEntry: 'd2_m10' },
+    ichigo:   { bloodEntry: 'd2_i11' }
+  };
+  const rcNear = NEAR_NPC_REENTRY[charId];
+  if (rcNear
+      && state.day === 2
+      && state.progress[charId]
+      && visitedNode('naginata','d2_n6')
+      && !visitedNode(charId, rcNear.bloodEntry)
+      && lastMsg && lastMsg.role === 'end') {
+    // 只移除当天末尾的 end bubble，保留白天线的对话记录；血场景会自然接在后面
+    while (state.history[charId].length) {
+      const last = state.history[charId][state.history[charId].length - 1];
+      if (last.day === state.day && last.role === 'end') state.history[charId].pop();
+      else break;
+    }
+    startNode(charId, rcNear.bloodEntry);
+    return;
+  }
+
   renderChatFull(charId);
   if (lastMsg && lastMsg.role === 'end') {
     elChatOptions.innerHTML = `<div class="opt-wait">${T('linkDown')}</div>`;
+    return;
+  }
+  if (state.typing) {
+    elChatOptions.innerHTML = `<div class="opt-wait">${T('receiving')}</div>`;
     return;
   }
   const node = getNode(charId, state.progress[charId]);
@@ -4501,6 +4555,10 @@ function startNode(charId, nodeKey) {
   if (!state.visitedNodes[charId]) state.visitedNodes[charId] = {};
   state.visitedNodes[charId][nodeKey] = true;
   if (!state.history[charId]) state.history[charId] = [];
+
+  // 一开始就锁定选项栏，防止残留旧选项或旧占位符
+  elChatOptions.innerHTML = `<div class="opt-wait">${T('receiving')}</div>`;
+
   const mySession = ++state.dialogSession;
   if (state.typeTimer) { clearInterval(state.typeTimer); state.typeTimer = null; }
   if (state.messageTimer) { clearTimeout(state.messageTimer); state.messageTimer = null; }
@@ -4517,7 +4575,16 @@ function startNode(charId, nodeKey) {
   let idx = 0;
   function next() {
     if (state.dialogSession !== mySession) return;
-    if (idx >= lines.length) { updateFormBtnVisibility(); showOptions(charId, node); return; }
+    if (idx >= lines.length) {
+      updateFormBtnVisibility();
+      // 本节点所有内容说完后，再等 400ms 才显示选项
+      state.messageTimer = setTimeout(() => {
+        if (state.dialogSession !== mySession) return;
+        if (state.typing) return;
+        showOptions(charId, node);
+      }, 400);
+      return;
+    }
     const i = idx++;
     const msg = {
       day: state.day, role: 'npc',
@@ -4580,6 +4647,7 @@ function typeLastBubble(msg, onDone, sessionId) {
 }
 
 function showOptions(charId, node) {
+  if (state.typing) return;
   node = node || { options: [] };
   elChatOptions.innerHTML = '';
   const allOpts = node.options || [];
@@ -4663,16 +4731,15 @@ function updateFormBtnVisibility() {
 }
 function updateMusicPlayerVisibility() {
   const mp = document.getElementById('musicPlayer');
-  if (isMobileLayout) { mp.style.display = 'block'; return; }
+  if (isMobileLayout) { mp.style.display = 'none'; return; }
   mp.style.display = Object.keys(state.submittedForms).length > 0 ? 'block' : 'none';
   requestAnimationFrame(adjustLeftButtonPositions);
 }
 function updatePlayerNextDayBtnVisibility() {
   const btn = document.getElementById('playerNextDayBtn');
-  if (isMobileLayout) { btn.style.display = 'block'; return; }
   const show = Object.keys(state.submittedForms).length > 0 || state.day >= 2;
   btn.style.display = show ? 'block' : 'none';
-  adjustLeftButtonPositions();
+  if (!isMobileLayout) adjustLeftButtonPositions();
 }
 function adjustLeftButtonPositions() {
   if (isMobileLayout) return;
@@ -4689,31 +4756,33 @@ function adjustLeftButtonPositions() {
 }
 function setupResponsiveLayout() {
   const mobile = window.matchMedia('(max-width: 768px)').matches;
-  if (mobile === isMobileLayout) return;
+  const chatBackBtn = document.getElementById('chatBackBtn');
+  if (mobile === isMobileLayout) {
+    if (chatBackBtn) chatBackBtn.style.display = mobile ? 'block' : 'none';
+    return;
+  }
   isMobileLayout = mobile;
 
   const viewContacts = document.getElementById('viewContacts');
   const screenTabs = document.querySelector('.screen-tabs');
   const formBtn = document.getElementById('formToggleBtn');
   const nextBtn = document.getElementById('playerNextDayBtn');
-  const musicPlayer = document.getElementById('musicPlayer');
   const btnChat = document.getElementById('btnChat');
 
   if (mobile) {
     if (!formBtn._originalParent) formBtn._originalParent = formBtn.parentElement;
     if (!nextBtn._originalParent) nextBtn._originalParent = nextBtn.parentElement;
-    if (!musicPlayer._originalParent) musicPlayer._originalParent = musicPlayer.parentElement;
 
     const viewHead = viewContacts.querySelector('.view-head');
     viewContacts.insertBefore(formBtn, viewHead.nextSibling);
     screenTabs.appendChild(nextBtn);
     btnChat.style.display = 'none';
-    viewContacts.appendChild(musicPlayer);
+    if (chatBackBtn) chatBackBtn.style.display = 'block';
   } else {
     if (formBtn._originalParent) formBtn._originalParent.appendChild(formBtn);
     if (nextBtn._originalParent) nextBtn._originalParent.appendChild(nextBtn);
-    if (musicPlayer._originalParent) musicPlayer._originalParent.appendChild(musicPlayer);
     btnChat.style.display = '';
+    if (chatBackBtn) chatBackBtn.style.display = 'none';
   }
 
   updateFormBtnVisibility();
