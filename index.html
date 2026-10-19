@@ -37,18 +37,47 @@ html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); f
 
 
 
-.form-toggle-btn { position:absolute; left:26px; bottom:400px; z-index:22; padding:14px 26px;
-  background:var(--red); color:#fff; border:3px solid var(--dark); box-shadow:5px 5px 0 var(--dark);
-  font-family:var(--font-head); font-size:14px; letter-spacing:6px; cursor:pointer;
-  transition:all .1s, bottom .3s ease; display:none; }
-.form-toggle-btn:hover { transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--dark); background:var(--amber); color:var(--dark); }
-.form-toggle-btn .sub { display:block; font-family:var(--font-body); font-size:10px; letter-spacing:3px; margin-top:3px; opacity:.85; }
-.next-day-btn { position:absolute; left:26px; bottom:340px; z-index:22; padding:12px 26px;
-  background:#3d7ebd; color:#fff; border:3px solid var(--dark); box-shadow:5px 5px 0 var(--dark);
-  font-family:var(--font-head); font-size:14px; letter-spacing:6px; cursor:pointer;
-  transition:all .1s, bottom .3s ease; display:none; }
-.next-day-btn:hover { transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--dark); background:var(--amber); color:var(--dark); }
-.next-day-btn .sub { display:block; font-family:var(--font-body); font-size:10px; letter-spacing:3px; margin-top:3px; opacity:.85; }
+@media (max-width: 768px) {
+  /* ...其他规则保持不变... */
+
+  .form-toggle-btn,
+  .next-day-btn {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transition: none !important;
+    z-index: 22;
+    transform: none;
+  }
+  .form-toggle-btn:hover,
+  .next-day-btn:hover {
+    transform: none;
+  }
+
+  .form-toggle-btn {
+    display: block;
+    width: calc(100% - 16px);
+    margin: 8px 8px 4px;
+    padding: 10px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    box-shadow: 3px 3px 0 var(--dark);
+  }
+
+  .next-day-btn {
+    display: block;
+    padding: 10px 8px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    border: none;
+    border-left: 3px solid var(--amber);
+    box-shadow: none;
+  }
+  .next-day-btn .sub,
+  .form-toggle-btn .sub { display: none; }
+
+  /* ...其他规则保持不变... */
+}
 .music-player { position:absolute; left:26px; bottom:26px; z-index:22; width:250px; padding:12px 14px 14px;
   background:var(--cream); border:3px solid var(--dark); box-shadow:5px 5px 0 var(--dark);
   opacity:.9; transition:opacity .25s ease; display:none; max-height:calc(100vh - 240px); overflow-y:auto; overflow-x:hidden; }
@@ -4754,27 +4783,28 @@ function adjustLeftButtonPositions() {
   if (nextBtn.style.display !== 'none') cur += (nextBtn.offsetHeight || 52) + gap;
   formBtn.style.bottom = cur + 'px';
 }
-function setupResponsiveLayout() {
+function setupResponsiveLayout(force) {
   const mobile = window.matchMedia('(max-width: 768px)').matches;
   const chatBackBtn = document.getElementById('chatBackBtn');
-  if (mobile === isMobileLayout) {
+  if (!force && mobile === isMobileLayout) {
     if (chatBackBtn) chatBackBtn.style.display = mobile ? 'block' : 'none';
     return;
   }
   isMobileLayout = mobile;
 
   const viewContacts = document.getElementById('viewContacts');
-  const screenTabs = document.querySelector('.screen-tabs');
-  const formBtn = document.getElementById('formToggleBtn');
-  const nextBtn = document.getElementById('playerNextDayBtn');
-  const btnChat = document.getElementById('btnChat');
+  const screenTabs   = document.querySelector('.screen-tabs');
+  const formBtn      = document.getElementById('formToggleBtn');
+  const nextBtn      = document.getElementById('playerNextDayBtn');
+  const btnChat      = document.getElementById('btnChat');
+  const commsScreen  = document.getElementById('commsScreen');
 
   if (mobile) {
     if (!formBtn._originalParent) formBtn._originalParent = formBtn.parentElement;
     if (!nextBtn._originalParent) nextBtn._originalParent = nextBtn.parentElement;
 
-    const viewHead = viewContacts.querySelector('.view-head');
-    viewContacts.insertBefore(formBtn, viewHead.nextSibling);
+    // formBtn 放到 comms-screen 顶层（在 viewContacts 之前），聊天视图里也能看到
+    commsScreen.insertBefore(formBtn, viewContacts);
     screenTabs.appendChild(nextBtn);
     btnChat.style.display = 'none';
     if (chatBackBtn) chatBackBtn.style.display = 'block';
@@ -5396,6 +5426,7 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
    ★ 初始化
    ============================================================ */
 function init() {
+  isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
   applyStarDriftKeyframes();
   switchScene('ship', true);
   initGrainCanvas();
@@ -5449,7 +5480,7 @@ function init() {
     }
   }, 800);
   commsGlitchLoop();
-  setupResponsiveLayout();
+  setupResponsiveLayout(true);
   requestAnimationFrame(adjustLeftButtonPositions);
 }
 document.addEventListener('DOMContentLoaded', init);
