@@ -594,7 +594,9 @@ const state = {
   autoSaveCursor: 0, typing: false, typeTimer: null,
   introDone: false, achievements: [],
   dayEntryDone: {}, dialogSession: 0, messageTimer: null,
-  visitedNodes: {}
+  visitedNodes: {},
+  spaceKilled: false,
+  gameCleared: false
 };
 let userScrolledUp = false;
 let isMobileLayout = null;
@@ -804,7 +806,7 @@ const STORY_ZH = {
         extra: ['你的脸色很差劲。', '你见到了，对吗？你知道我指的是什么。'],
         options: [
           { text: '嗯。你早就知道了？', next: 'd2_n2', condition: () => visitedNode('hasebe','d2_b9b') || visitedNode('mikazuki','d2_m9b') || visitedNode('ichigo','d2_i9') },
-          { text: '我杀了人……', next: 'd2_n2b', condition: () => visitedNode('hasebe','d2_b9b') || visitedNode('mikazuki','d2_m9b') || visitedNode('ichigo','d2_i10') }
+          { text: '我杀了人……', next: 'd2_n2b', condition: () => !!state.spaceKilled }
         ] },
       d2_n2: { text: '我当然知道，但我没办法在一开始就告诉你，你也一定不会信。',
         extra: ['他是谁？等等，我不该问的，这毕竟也是你的隐私。', '我煮了茶，你可以边喝边休息一会儿。', '我看到你刚刚完成了舱外作业，你其实不用这么拼命，懂吗？时政要的是你长期驻扎在这里，而不是要求你像排查隐患的工程师那样做每日例行检查。'],
@@ -857,7 +859,7 @@ const STORY_ZH = {
         ] },
       d2_n4d: { text: '哈？',
         extra: ['既然如此，那么与其和任性的我聊天，不如去找时政助手™或者量产型同田贯商量吧？', '我还要完善报告，恕我失陪。'],
-        options: [{ text: '喂！', next: null }] },
+        options: [{ text: '喂！', next: 'd2_n6b' }] },
       d2_n4e: { text: '如果你想的话，也可以这么说。',
         extra: ['那么，你应该还有事要找我吧？是什么事？关于{partner}的？'],
         options: [
@@ -878,6 +880,9 @@ const STORY_ZH = {
         ] },
       d2_n6: { text: '它是真实的。它们是这里——我们脚下的星球，索拉里斯。',
         extra: ['它们在睡梦中认识了你，然后造出一个足以和你沟通的个体。一个你日思夜想的个体。', '我把它们称为"客人"，因为它们未经允许便造访了这座观测站。', '你没有疯，也没有因为吸入任何致幻剂，这就是明明白白的事实。', '……', '……声音好像是从门里传来的', '谁在你房间里？'],
+        options: [{ text: '谁……？', next: null, scene: 'stationDusk' }] },
+      d2_n6b: { text: '……',
+        extra: [ '……等等', '……声音好像是从门里传来的', '谁在你房间里？'],
         options: [{ text: '谁……？', next: null, scene: 'stationDusk' }] },
       d3_n1: { text: '醒了？',
         extra: ['居然没有先和{partner}，而是和我联络吗？真让人意外。', '没有别的意思，不过既然你来了，那我也正好和你说一下：', '我和同田贯商量过了，我们准备向索拉里斯星的表面发射几道射线。', '我们实在无法忍受……总之，研究陷入了僵局，最好的办法就是这么做。也许射线能让这颗星球意识到，有些人正在因它而苦恼。'],
@@ -1085,7 +1090,10 @@ const STORY_ZH = {
       d2_b9: { text: '什么？我不明白。', extra: ['衣服不就是由高分子化合物通过特定工艺，使分子链沿特定方向排列而形成的片或线状材料的集合体吗？', '它应该是连在一起的，不是吗？'],
         options: [{ text: '我说的不是这个意思……', next: 'd2_b9c' }, { text: '没什么，别管它了（用剪刀剪开布料）', next: 'd2_b9b' }] },
       d2_b9b: { text: '好的。既然您已经发出了命令。我不会再思考那些无聊的事了。', extra: ['您的事情才是第一位的。', '我想我已经做好了追随您到太空的准备。'],
-        options: [{ text: '（和长谷部一起完成舱外作业）', next: null, effect: { love: 1 } }, { text: '（把长谷部推出舱室）', next: null, effect: { horror: 1, paranoid: 1 } }] },
+        options: [
+          { text: '（和长谷部一起完成舱外作业）', next: null, effect: { love: 1 }, action: 'markSpaceSurvived' },
+          { text: '（把长谷部推出舱室）', next: null, effect: { horror: 1, paranoid: 1 }, action: 'markSpaceKilled' }
+        ] },
       d2_b9c: { text: '是吗，看来我仍有很多需要学习的东西。', extra: ['啊，已经解开了。'],
         options: [{ text: '我明明还没有开始剪……不，什么都没有', next: 'd2_b9b', effect: { horror: 1 } }, { text: '那么，出发吧', next: 'd2_b9b' }] },
       d2_b10: { text: '……', extra: ['……', '……', '我回来了，主。'],
@@ -1165,7 +1173,10 @@ const STORY_ZH = {
       d2_m9: { text: '这样啊。', extra: ['看来，还有许多我也不曾知晓的事情呢', '不过，现在的重点可不是这个'],
         options: [{ text: '继续吧', next: 'd2_m8b' }] },
       d2_m9b: { text: '您的心跳声很响呢。', extra: ['已经在开启闸门了。这么近的距离看到太空，还是第一次', '缆绳……有什么问题吗？', '……啊'],
-        options: [{ text: '（割断连接着三日月宗近的缆绳）', next: null, effect: { horror: 1, paranoid: 1 } }, { text: '（和三日月宗近一起完成任务）', next: null, effect: { love: 1 } }] },
+        options: [
+          { text: '（割断连接着三日月宗近的缆绳）', next: null, effect: { horror: 1, paranoid: 1 }, action: 'markSpaceKilled' },
+          { text: '（和三日月宗近一起完成任务）', next: null, effect: { love: 1 }, action: 'markSpaceSurvived' }
+        ] },
       d2_m9c: { text: '哈哈，是这样吗？那么，不认真起来可不行啊', extra: ['让我和您就这样一起畅游在外太空吧'],
         options: [{ text: '手拉着手走路很奇怪吧？', next: 'd2_m9b', effect: { love: 1 } }, { text: '在前面左转', next: 'd2_m9b' }] },
       d2_m10: { text: '……', extra: ['……', '……', '……找到您了。'],
@@ -1242,7 +1253,10 @@ const STORY_ZH = {
       d2_i8b: { text: '还好，有过照料弟弟们吃穿的经验，完成这个也算不上困难呢。', extra: ['啊。既然眼前只有您，那么只要去思考您的事情就可以了，对吧？', '弟弟们也到了需要尝试生活自理的年龄了。', '那么，现在您要去哪里呢？'],
         options: [{ text: '跟着我走吧', next: 'd2_i9' }] },
       d2_i9: { text: '好的。请不要松开我的手。', extra: ['这就是观测站内部吗？很宽敞呢。', '……', '好像之前来过这里了。', '……', '那边是垃圾焚化炉吧？', '……', '啊，要到外太空作业吗？请注意缆绳是否牢靠……打开闸门时也请不要站在边缘地带……'],
-        options: [{ text: '（划破一期一振的太空服）', next: 'd2_i10', effect: { paranoid: 1, horror: 1 } }, { text: '（和一期一振完成外太空作业）', next: null, effect: { love: 1 } }] },
+        options: [
+          { text: '（划破一期一振的太空服）', next: 'd2_i10', effect: { paranoid: 1, horror: 1 }, action: 'markSpaceKilled' },
+          { text: '（和一期一振完成外太空作业）', next: null, effect: { love: 1 }, action: 'markSpaceSurvived' }
+        ] },
       d2_i10: { text: '主人！似乎有哪里在漏气……', extra: ['……', '啊。', '您还是不愿意相信我吗？', '……', '要向着宇宙深处越飘越远了呢。', '……真希望您一切安好……'],
         options: [{ text: '（结束通讯）', next: null }] },
       d2_i11: { text: '主人。', extra: ['……', '……', '……'],
@@ -1522,6 +1536,13 @@ const STORY_EN = {
           'I call them "guests," because they visited this station without permission.',
           'You are not insane, and you have not inhaled any hallucinogen. That is the plain truth.',
           '...',
+          '...The sound seems to come from the door.',
+          'Who is in your room?'
+        ],
+        options: [{ text: 'Who...?' }] },
+      d2_n6b: { text: '……',
+        extra: [
+          '...wait.',
           '...The sound seems to come from the door.',
           'Who is in your room?'
         ],
@@ -2679,6 +2700,13 @@ const STORY_JA = {
           'お前の部屋に、誰がいる？'
         ],
         options: [{ text: '誰……？' }] },
+      d2_n6b: { text: '……',
+        extra: [
+          '……',
+          '……音は、ドアの方から聞こえるようだ。',
+          'お前の部屋に、誰がいる？'
+        ],
+        options: [{ text: '誰……？' }] },
       d3_n1: { text: '起きたか？',
         extra: [
           'よりによって{partner}ではなく、俺に連絡してくるとはな。意外だ。',
@@ -3797,6 +3825,30 @@ const UI_I18N = {
   }
 };
 
+/* ============================================================
+   ★ 通关弹窗 i18n
+   ============================================================ */
+const CLEAR_MODAL_I18N = {
+  zh: {
+    title: '恭喜通关！',
+    sub:   'Solaris Sea · End',
+    body:  '本游戏还有另外两条线路，可以尝试其他更多选择，抵达不同的结局。',
+    ok:    '确 认'
+  },
+  en: {
+    title: 'Congratulations!',
+    sub:   'Solaris Sea · End',
+    body:  'There are two other routes in this game. Try other choices to reach a different ending.',
+    ok:    'OK'
+  },
+  ja: {
+    title: 'クリアおめでとうございます！',
+    sub:   'Solaris Sea · End',
+    body:  '本作には他に二つのルートがあります。別の選択肢を選んで、違う結末を目指してみてください。',
+    ok:    '確 認'
+  }
+};
+
 const FORM_I18N = {
   zh: {
     1: { title: '状态评估·第一日', desc: '请如实填写，此表将上传至时政档案部。',
@@ -4590,7 +4642,12 @@ function startNode(charId, nodeKey) {
   if (!state.visitedNodes[charId]) state.visitedNodes[charId] = {};
   state.visitedNodes[charId][nodeKey] = true;
   if (!state.history[charId]) state.history[charId] = [];
-
+if (!state.visitedNodes[charId]) state.visitedNodes[charId] = {};
+state.visitedNodes[charId][nodeKey] = true;
+// ★ 让 d2_n6b 视同 d2_n6 走过，保证后续场景/血场景触发一致
+if (charId === 'naginata' && nodeKey === 'd2_n6b') {
+  state.visitedNodes[charId]['d2_n6'] = true;
+}
   // 一开始就锁定选项栏，防止残留旧选项或旧占位符
   elChatOptions.innerHTML = `<div class="opt-wait">${T('receiving')}</div>`;
 
@@ -4731,12 +4788,20 @@ function handleOptionClick(charId, opt, optionIndex) {
   }
   checkAchievements();
   if (opt.action === 'unlockIntroNpcs') unlockIntroNpcs();
+  if (opt.action === 'markSpaceKilled')   state.spaceKilled = true;
+  if (opt.action === 'markSpaceSurvived') state.spaceKilled = false;
   if (opt.scene) setTimeout(() => switchScene(opt.scene), 800);
   if (opt.next === null || opt.next === undefined) {
-    state.history[charId].push({ day: state.day, role: 'end', text: T('endBubble') });
-    renderChatFull(charId);
-    elChatOptions.innerHTML = `<div class="opt-wait">${T('linkDown')}</div>`;
-  } else {
+      state.history[charId].push({ day: state.day, role: 'end', text: T('endBubble') });
+      renderChatFull(charId);
+      elChatOptions.innerHTML = `<div class="opt-wait">${T('linkDown')}</div>`;
+      // ★ 通关检测：审神者线全部对话结束后弹窗（仅首次）
+      if (charId === 'saniwa' && !state.gameCleared) {
+        state.gameCleared = true;
+        doAutoSave();
+        setTimeout(showClearModal, 700);
+      }
+    } else {
     elChatOptions.innerHTML = `<div class="opt-wait">${T('receiving')}</div>`;
     startNode(charId, opt.next);
   }
@@ -4847,6 +4912,15 @@ function confirmDialog(msg, onConfirm) {
     </div></div>`);
   document.getElementById('cfCancel').addEventListener('click', closeModal);
   document.getElementById('cfOk').addEventListener('click', () => { closeModal(); if (onConfirm) onConfirm(); });
+}
+
+function showClearModal() {
+  const i18n = CLEAR_MODAL_I18N[state.lang] || CLEAR_MODAL_I18N.zh;
+  showModal(`<div class="modal-head">${i18n.title}</div>
+    <div class="modal-sub">${i18n.sub}</div>
+    <div class="credits-body"><p>${i18n.body}</p></div>
+    <button class="form-submit" id="clearOk">${i18n.ok}</button>`);
+  document.getElementById('clearOk').addEventListener('click', closeModal);
 }
 
 /* ============================================================
@@ -5060,7 +5134,9 @@ function buildSaveSnapshot() {
     preferredStyle: music.preferredStyle, preferredLyrics: music.preferredLyrics, musicMode: music.mode,
     achievements: [...state.achievements], dayEntryDone: JSON.parse(JSON.stringify(state.dayEntryDone || {})),
     visitedNodes: JSON.parse(JSON.stringify(state.visitedNodes || {})),
-    currentScene: state.currentScene
+    currentScene: state.currentScene,
+    spaceKilled: state.spaceKilled,
+    gameCleared: state.gameCleared
   };
 }
 function inferSceneFromState() {
@@ -5097,6 +5173,9 @@ function applySaveSnapshot(data) {
   state.dayEntryDone = data.dayEntryDone || {};
   state.visitedNodes = data.visitedNodes || {};
   state.view = 'contacts';
+
+  state.spaceKilled = !!data.spaceKilled;
+  state.gameCleared = !!data.gameCleared;
 
   // ★ 恢复存档时的场景（旧存档没记录时退回 ship）
   switchScene((data.currentScene && SCENES[data.currentScene]) ? data.currentScene : 'ship', true);
@@ -5351,6 +5430,8 @@ function resetGame() {
     updateView(); updateFormToggle(); updateFormBtnVisibility(); updateMusicPlayerVisibility(); updatePlayerNextDayBtnVisibility();
     updateMpStatus(); updateDebug();
     setTimeout(() => enterChat('konosuke'), 300);
+    state.spaceKilled = false;
+    state.gameCleared = false;
   });
 }
 
