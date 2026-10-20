@@ -37,47 +37,7 @@ html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); f
 
 
 
-@media (max-width: 768px) {
-  /* ...其他规则保持不变... */
 
-  .form-toggle-btn,
-  .next-day-btn {
-    position: relative !important;
-    bottom: auto !important;
-    left: auto !important;
-    transition: none !important;
-    z-index: 22;
-    transform: none;
-  }
-  .form-toggle-btn:hover,
-  .next-day-btn:hover {
-    transform: none;
-  }
-
-  .form-toggle-btn {
-    display: block;
-    width: calc(100% - 16px);
-    margin: 8px 8px 4px;
-    padding: 10px;
-    font-size: 12px;
-    letter-spacing: 3px;
-    box-shadow: 3px 3px 0 var(--dark);
-  }
-
-  .next-day-btn {
-    display: block;
-    padding: 10px 8px;
-    font-size: 11px;
-    letter-spacing: 3px;
-    border: none;
-    border-left: 3px solid var(--amber);
-    box-shadow: none;
-  }
-  .next-day-btn .sub,
-  .form-toggle-btn .sub { display: none; }
-
-  /* ...其他规则保持不变... */
-}
 .music-player { position:absolute; left:26px; bottom:26px; z-index:22; width:250px; padding:12px 14px 14px;
   background:var(--cream); border:3px solid var(--dark); box-shadow:5px 5px 0 var(--dark);
   opacity:.9; transition:opacity .25s ease; display:none; max-height:calc(100vh - 240px); overflow-y:auto; overflow-x:hidden; }
@@ -149,25 +109,60 @@ html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); f
 .contact-item .c-name { font-family:var(--font-head); font-size:15px; letter-spacing:2px; color:var(--dark); line-height:1.2; }
 .contact-item .c-role { font-family:var(--font-body); font-weight:700; font-size:10.5px; letter-spacing:1.5px; color:#6a5a4a; margin-top:4px; }
 .contact-item .c-badge { width:12px; height:12px; background:var(--red); border:2px solid var(--dark); flex-shrink:0; animation:camLed 2.4s infinite; }
+.contact-item.form-assistant {
+  background: #3d7ebd;
+  color: #fff;
+  box-shadow: 4px 4px 0 var(--dark);
+}
+.contact-item.form-assistant .c-name { color: #fff; }
+.contact-item.form-assistant .c-role { color: rgba(255,255,255,.85); }
+.contact-item.form-assistant:hover {
+  background: #5a96d0;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--dark);
+}
+.contacts-next-day-btn {
+  flex-shrink: 0;
+  width: 100%;
+  padding: 16px 8px;
+  background: var(--dark);
+  border: none;
+  border-top: 3px solid var(--amber);
+  color: var(--amber);
+  font-family: var(--font-head);
+  font-size: 13px;
+  letter-spacing: 6px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  display: none;
+}
+.contacts-next-day-btn:hover {
+  background: var(--red);
+  color: #fff;
+}
 .chat-head { flex-shrink:0; display:flex; align-items:center; gap:14px; padding:12px 18px;
   background:var(--dark); border-bottom:2px solid var(--amber); position:relative; }
 .chat-head::before { content:''; position:absolute; left:0; top:0; bottom:0; width:6px; background:var(--red); }
-.chat-head .avatar { width:46px; height:46px; flex-shrink:0; border:2px solid var(--amber); background:var(--dark); overflow:hidden; }
+.chat-head .avatar { order:2; width:46px; height:46px; flex-shrink:0; border:2px solid var(--amber); background:var(--dark); overflow:hidden; }
 .chat-head .avatar svg { display:block; width:100%; height:100%; }
 .chat-head .speaker-name { font-family:var(--font-head); font-size:17px; letter-spacing:3px; color:var(--amber); line-height:1.15; }
 .chat-head .speaker-role { font-family:var(--font-body); font-weight:700; font-size:10px; letter-spacing:2px; color:#8a7a5a; margin-top:4px; }
-.chat-head .head-info { flex:1; min-width:0; }
+.chat-head .head-info { order:1; flex:1; min-width:0; text-align:right; margin-right:8px; }
 .chat-back-btn {
-  display: none;
+  display: block;
+  order: 0;
+  flex-shrink: 0;
   background: transparent;
   border: none;
   color: var(--amber);
-  font-size: 28px;
+  font-size: 30px;
   line-height: 1;
   cursor: pointer;
-  padding: 0 6px 4px 0;
+  padding: 0 10px 2px 0;
   font-family: var(--font-head);
+  transition: color .15s;
 }
+.chat-back-btn:hover { color: var(--red); }
 .chat-history { flex:1; min-height:0; overflow-y:auto; padding:18px 16px 8px; display:flex; flex-direction:column; background:var(--dark); }
 .day-sep { text-align:center; margin:4px 0 16px; flex-shrink:0; }
 .day-sep span { display:inline-block; padding:5px 18px; background:var(--amber); color:var(--dark);
@@ -198,13 +193,6 @@ html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); f
   font-family:var(--font-head); font-size:10px; letter-spacing:2px; cursor:pointer; transition:all .15s;
   display:none; flex-shrink:0; z-index:20; }
 .jump-latest-btn:hover { background:var(--red); color:#fff; }
-.screen-tabs { position:relative; z-index:16; flex-shrink:0; display:grid; grid-template-columns:1fr 1fr;
-  background:var(--dark); border-top:3px solid var(--amber); }
-.screen-tabs button { position:relative; padding:14px 8px; background:var(--dark); border:none;
-  border-right:3px solid var(--amber); color:var(--amber); font-family:var(--font-head);
-  font-size:13px; letter-spacing:6px; cursor:pointer; }
-.screen-tabs button:last-child { border-right:none; }
-.screen-tabs button[data-active="true"] { background:var(--red); color:#fff; }
 .crt-scan { position:absolute; inset:0; z-index:12; pointer-events:none;
   background:repeating-linear-gradient(0deg, rgba(0,0,0,.35) 0px, rgba(0,0,0,.35) 1px, transparent 1px, transparent 3px);
   mix-blend-mode:multiply; }
@@ -243,11 +231,11 @@ html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); f
   border:2px solid var(--dark); font-size:14px; width:34px; height:34px; cursor:pointer;
   font-family:var(--font-head); }
 .modal-close:hover { background:var(--red); transform:rotate(90deg); }
-.menu-tabs { display:flex; margin-bottom:20px; border:2px solid var(--dark); flex-wrap:wrap; }
-.menu-tab { flex:1; min-width:90px; padding:12px 10px; background:var(--cream); border:none;
-  border-right:2px solid var(--dark); color:var(--dark); font-family:var(--font-head);
+.menu-tabs { display:flex; margin-bottom:20px; flex-wrap:wrap; gap:6px; }
+.menu-tab { flex:1 1 auto; min-width:85px; padding:12px 10px; background:var(--cream);
+  border:2px solid var(--dark); box-shadow:3px 3px 0 var(--dark);
+  color:var(--dark); font-family:var(--font-head);
   font-size:12px; letter-spacing:2px; cursor:pointer; }
-.menu-tab:last-child { border-right:none; }
 .menu-tab.active { background:var(--dark); color:var(--cream); }
 .save-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
 .save-slot { padding:14px 16px; background:#fff; border:2px solid var(--dark);
@@ -416,7 +404,6 @@ html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); f
   .comms-top h1 { font-size: 16px; letter-spacing: 4px; }
   .comms-top .reset-btn,
   .comms-top .menu-btn { padding: 5px 10px; font-size: 10px; letter-spacing: 2px; }
-  .screen-tabs button { padding: 12px 6px; font-size: 11px; letter-spacing: 3px; }
   .contact-item { padding: 10px 12px; margin-bottom: 8px; }
   .contact-item .c-ava { width: 40px; height: 40px; }
   .contact-item .c-name { font-size: 13px; }
@@ -489,38 +476,20 @@ html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); f
   .chat-options { padding: 8px 10px 10px; gap: 8px; max-height: 40vh; }
   .opt { padding: 10px 14px 10px 32px; font-size: 12px; }
 
-  /* 底部栏：联系人 + 下一日 并排，隐藏“对话”标签 */
-  .screen-tabs { display: flex; }
-  .screen-tabs button { flex: 1; padding: 10px 8px; font-size: 11px; letter-spacing: 3px; }
-  #btnChat { display: none !important; }
-  .next-day-btn {
-    position: static !important;
-    display: block;
-    padding: 10px 8px;
-    font-size: 11px;
-    letter-spacing: 3px;
-    border: none;
-    border-left: 3px solid var(--amber);
-    box-shadow: none;
-    transform: none;
-  }
-  .next-day-btn:hover { transform: none; box-shadow: none; }
-  .next-day-btn .sub,
-  .form-toggle-btn .sub { display: none; }
 
-  /* 表格按钮：联系人视图顶部，整行 */
-  .form-toggle-btn {
-    position: static !important;
-    display: block;
-    width: calc(100% - 16px);
-    margin: 8px;
-    padding: 10px;
-    font-size: 12px;
-    letter-spacing: 3px;
-    box-shadow: 3px 3px 0 var(--dark);
-    transform: none;
-  }
-  .form-toggle-btn:hover { transform: none; box-shadow: 3px 3px 0 var(--dark); }
+
+  /* 手机端不再显示悬浮的表格按钮（改用"表格助手"联系人条目） */
+.stage-top-bar {
+  position: absolute;
+  top: 22px;
+  left: 26px;
+  z-index: 22;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
 
   /* 手机端不需要音乐播放器 */
   .music-player { display: none !important; }
@@ -542,14 +511,6 @@ html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); f
     <div class="scene-layer" id="layerB"></div>
     <canvas class="grain-canvas" id="grainCanvas"></canvas>
     <div class="texture-overlay"></div>
-    <button class="form-toggle-btn" id="formToggleBtn">
-      <span data-i18n="formBtn">填报表格</span>
-      <span class="sub" id="formToggleSub">第 1 日 · 待提交</span>
-    </button>
-    <button class="next-day-btn" id="playerNextDayBtn">
-      <span data-i18n="nextDay">下一天</span>
-      <span class="sub">DAY + 1</span>
-    </button>
     <div class="music-player" id="musicPlayer">
       <div class="mp-header"><span data-i18n="music">音乐</span><span class="mp-led" id="mpLed"></span></div>
       <div class="mp-track empty" id="mpTrack">— 未加载音轨 —</div>
@@ -581,11 +542,14 @@ html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); f
       <button class="menu-btn" id="menuBtn" data-i18n="menu">菜单</button>
     </div>
     <div class="comms-screen" id="commsScreen">
-      <div class="view view-contacts" id="viewContacts">
-        <div class="view-head" data-i18n="contacts">联 系 人</div>
-        <div class="contact-list" id="contactList"></div>
-      </div>
-      <div class="view view-chat" id="viewChat" style="display:none;">
+    <div class="view view-contacts" id="viewContacts">
+      <div class="view-head" data-i18n="contacts">联 系 人</div>
+      <div class="contact-list" id="contactList"></div>
+      <button class="contacts-next-day-btn" id="playerNextDayBtn">
+        <span data-i18n="nextDay">下一天</span>
+      </button>
+    </div>
+    <div class="view view-chat" id="viewChat" style="display:none;">
         <div class="chat-head">
           <button class="chat-back-btn" id="chatBackBtn" aria-label="返回联系人">‹</button>
           <div class="avatar" id="avatar"></div>
@@ -597,10 +561,6 @@ html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); f
         <div class="chat-history" id="chatHistory"></div>
         <button class="jump-latest-btn" id="jumpLatestBtn" data-i18n="jumpLatest">↓ 最新消息</button>
         <div class="chat-options" id="chatOptions"></div>
-      </div>
-      <div class="screen-tabs">
-        <button id="btnContacts" data-active="true" data-i18n="tabContacts">联系人</button>
-        <button id="btnChat" data-i18n="tabChat">对话</button>
       </div>
       <div class="crt-noise"></div>
       <div class="crt-scan"></div>
@@ -750,7 +710,7 @@ const STORY_ZH = {
         ] },
       d1_k3b: { text: '恐怕不行。评估表是判断您身心状况的重要依据，在您完成评估前，狐之助无法向您提供更多服务。',
         options: [{ text: '好吧，我会填的。', next: 'd1_k3' }] },
-      d1_k3: { text: '您能配合真是太好了。左侧应该有"填报表格"按钮，请您如实填写',
+      d1_k3: { text: '您能配合真是太好了。您的互动界面应该出现了"填报表格"按钮，请您如实填写',
         options: [{ text: '（结束通讯）', next: null }] },
       d1_k4: { text: '评估表已经收到。欢迎您，审神者。',
         extra: [
@@ -1021,7 +981,7 @@ const STORY_ZH = {
         extra: ['我是真的担心你才这么问的', '我确实很重视肌肉，但那是因为我希望我的存在能替人类派上些用处', '但在太空用刀剑？哈哈……我们并没有在拍绝地武士，对不？', '我听山姥切说，你的"客人"是{partner}？', '这还挺……我说不上来少见还是常见，至少我见过的审神者的"客人"都是以人类的形态出现的', '很少有人这么重视刀剑男士……我是说，要是所有审神者都能像你一样就好了', '……我这么说没有别的意思，我是真心这么想的', '{partner}还在你那边吗？'],
         options: [{ text: '他睡下了，就在我旁边', next: 'd2_t3' }] },
       d2_t3: { text: '这样啊',
-        extra: ['那我就不过去了。倒不是我怕打扰他睡觉之类的，你应该知道吧？"客人"是不会睡觉的，他们不休息，也不用进食，所有的行为都是在学习和模仿你', '这都是我和山姥切的实验结果。这颗星球的磁场很奇特，它甚至绕着两颗恒星做运动', '不太符合我们已知的物理学，对吧？', '我不知道是因为磁场还是什么的关系……我和山姥切已经很久没有进入休眠了', '哦，刚刚山姥切告诉我……不让我过去的原因是，你的房间门被{partner}破坏了？', '希望你又找到什么布帘遮挡一下'],
+        extra: ['那我就不过去了。倒不是我怕打扰他睡觉之类的，你应该知道吧？"客人"是不会睡觉的，他们不休息，也不用进食，所有的行为都是在学习和模仿你', '这都是我和山姥切的实验结果。这颗星球的磁场很奇特，它甚至绕着两颗恒星做运动', '不太符合我们已知的物理学，对吧？', '我不知道是因为磁场还是什么的关系……我和山姥切已经很久没有进入休眠了', '哦，刚刚山姥切告诉我……不让我过去的原因是，你的房间门被{partner}破坏了？', '希望你有找到什么布帘遮挡一下'],
         options: [
           { text: '当然。另外，{partner}的恢复速度异常快，我担心……', next: 'd2_t4' },
           { text: '你在担心无意间撞见我换衣服吗？', next: 'd2_t4b' }
@@ -1356,7 +1316,7 @@ const STORY_EN = {
         options: [{ text: 'Where is the form?' }, { text: 'Can I skip it?' }] },
       d1_k3b: { text: 'I\'m afraid not. The assessment is essential for determining your physical and mental condition. Until it is completed, Konosuke cannot offer further services.',
         options: [{ text: 'Fine. I\'ll fill it in.' }] },
-      d1_k3: { text: 'I\'m so glad you\'re willing to cooperate. There should be a "Submit Form" button on the left. Please fill it in truthfully.',
+      d1_k3: { text: 'I\'m so glad you\'re willing to cooperate. There should be a "Submit Form" button on the screen. Please fill it in truthfully.',
         options: [{ text: '(End communication)' }] },
       d1_k4: { text: 'The assessment has been received. Welcome, Saniwa.',
         extra: [
@@ -1740,7 +1700,7 @@ const STORY_EN = {
           'Doesn\'t quite fit the physics we know, does it?',
           'I don\'t know if it\'s the magnetic field or something else... Yamanbagiri and I haven\'t entered dormancy for a long time.',
           'Oh—Yamanbagiri just told me... the reason he told me not to come over is that your room door was destroyed by {partner}?',
-          'I hope you\'ve found some kind of curtain to cover it again.'
+          'I hope you\'ve found some kind of curtain to cover it.'
         ],
         options: [
           { text: 'Of course. Also—{partner}\'s recovery speed is abnormally fast. I\'m worried...' },
@@ -2584,7 +2544,7 @@ const STORY_JA = {
         options: [{ text: '用紙はどこに？' }, { text: '書かなくてもいい？' }] },
       d1_k3b: { text: '恐れ入りますが、それはできかねます。評価表はあなたの心身の状態を判断する重要な指標です。ご記入が完了するまで、狐之助はこれ以上のサービスを提供できません。',
         options: [{ text: 'わかった。書くよ。' }] },
-      d1_k3: { text: 'ご協力いただけて本当によかった。左側に「報告書を提出」ボタンがあるはずです。ありのままにご記入ください。',
+      d1_k3: { text: 'ご協力いただけて本当によかった。画面上には「報告書を提出」ボタンがあるはずです。ありのままにご記入ください。',
         options: [{ text: '（通信を終了する）' }] },
       d1_k4: { text: '評価表、確かに受け取りました。ようこそ、審神者様。',
         extra: [
@@ -2873,7 +2833,7 @@ const STORY_JA = {
           '俺たちが知る物理学とは、あまり合わないだろう？',
           '磁場のせいなのか、何なのかはわからないが……俺と山姥切は、もうずっと休眠に入っていない。',
           'ああ、今山姥切が教えてくれた……俺が行くなと言われた理由は、お前の部屋のドアが{partner}に壊されたかららしい。',
-          '何か布の類を見つけて、また塞いでいるといいんだが。'
+          'もし何か布みたいなものでそれを塞げたらいいのに。'
         ],
         options: [{ text: 'もちろん。それと、{partner}の回復速度が異常に速い。俺はそれが心配で……' }, { text: '俺が着替えているところに、うっかり遭遇するのが心配なのか？' }] },
       d2_t4: { text: '心配することは何もない。彼らはどんな傷でも驚くほど早く治す。',
@@ -3690,6 +3650,8 @@ const UI_I18N = {
     daySep: '第 {day} 日',
     formSubmittedTag: '已提交 · 无法修改',
     formEmpty: '（未填写）',
+    formAssistant: '表格助手',
+    formAssistantSub: '第 {day} 日 · {status}',
     menuTabs: { auto: '自动存档', manual: '手动存档', achievements: '成就', credits: '制作声明' },
     saveAuto: '自动', saveManual: '手动', saveEmpty: '— 空 —', saveDay: '第 {day} 日',
     saveLoad: '读 取', saveDelete: '删 除', saveCancel: '取 消',
@@ -3740,6 +3702,8 @@ const UI_I18N = {
     daySep: 'Day {day}',
     formSubmittedTag: 'Submitted · Cannot modify',
     formEmpty: '(Not filled)',
+    formAssistant: 'Form Assistant',
+    formAssistantSub: 'Day {day} · {status}',
     menuTabs: { auto: 'Auto Saves', manual: 'Manual Saves', achievements: 'Achievements', credits: 'Credits' },
     saveAuto: 'Auto', saveManual: 'Manual', saveEmpty: '— Empty —', saveDay: 'Day {day}',
     saveLoad: 'LOAD', saveDelete: 'DELETE', saveCancel: 'CANCEL',
@@ -3790,6 +3754,8 @@ const UI_I18N = {
     daySep: '第{day}日',
     formSubmittedTag: '提出済み · 変更不可',
     formEmpty: '（未記入）',
+    formAssistant: 'フォームアシスタント',
+    formAssistantSub: '第{day}日 · {status}',
     menuTabs: { auto: '自動セーブ', manual: '手動セーブ', achievements: '実績', credits: 'クレジット' },
     saveAuto: '自動', saveManual: '手動', saveEmpty: '— 空 —', saveDay: '第{day}日',
     saveLoad: '読 込', saveDelete: '削 除', saveCancel: 'キャンセル',
@@ -4170,6 +4136,17 @@ function buildStationScene(uid, mode) {
   const wallY = wallBottomAt(cx);
   const lightTopY = 2 * wallY - (cy + ry);
   s += `<ellipse cx="${cx-80}" cy="${lightTopY+10}" rx="92" ry="40" fill="${P.lightColor}"/>`;
+  // ★ 极夜：从左上角开始的黑色阴影渐变
+  if (mode === 'night') {
+    s += `<defs>
+      <radialGradient id="${uid}-shadow" cx="0%" cy="0%" r="90%" fx="0%" fy="0%">
+        <stop offset="0%"  stop-color="#000" stop-opacity="0.92"/>
+        <stop offset="55%" stop-color="#000" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+      </radialGradient>
+    </defs>`;
+    s += `<rect x="-100" y="-100" width="1200" height="900" fill="url(#${uid}-shadow)" pointer-events="none"/>`;
+  }
   return s;
 }
 function buildSceneSVG(sceneId, uid) {
@@ -4278,8 +4255,12 @@ const music = {
 function initMusicPlayer() {
   music.audioEl.preload = 'metadata';
   music.audioEl.addEventListener('ended', () => {
-    if (music.mode === 'single') { music.audioEl.currentTime = 0; music.audioEl.play().catch(()=>{}); }
-    else playNextTrack();
+    if (music.mode === 'single') {
+      music.audioEl.currentTime = 0;
+      music.audioEl.play().catch(()=>{});
+    } else {
+      playNextTrack(true);   // 强制自动播放下一首
+    }
   });
   music.audioEl.addEventListener('timeupdate', () => {
     if (!music.audioEl.duration) return;
@@ -4287,10 +4268,18 @@ function initMusicPlayer() {
   });
   music.audioEl.addEventListener('play', () => { music.playing = true; document.getElementById('mpLed').classList.add('on'); document.getElementById('mpPlay').textContent = '❚❚'; });
   music.audioEl.addEventListener('pause', () => { music.playing = false; document.getElementById('mpLed').classList.remove('on'); document.getElementById('mpPlay').textContent = '▶'; });
+  let _musicErrorCount = 0;
   music.audioEl.addEventListener('error', () => {
     const t = document.getElementById('mpTrack');
     const cur = music.tracks[music.currentIndex];
     if (t && cur) t.textContent = '⚠ 加载失败：' + cur.name;
+    if (!music.tracks.length) return;
+    if (_musicErrorCount < music.tracks.length) {
+      _musicErrorCount++;
+      setTimeout(() => playNextTrack(true), 900);
+    } else {
+      _musicErrorCount = 0;
+    }
   });
   document.getElementById('mpAdd').addEventListener('click', () => document.getElementById('mpFile').click());
   document.getElementById('mpFile').addEventListener('change', (e) => { addTracks(e.target.files); e.target.value = ''; });
@@ -4364,7 +4353,7 @@ function playTrack() {
   music.audioEl.play().catch(()=>{});
 }
 function togglePlay() { if (music.tracks.length) { music.playing ? music.audioEl.pause() : playTrack(); } }
-function playNextTrack() {
+function playNextTrack(force) {
   if (!music.tracks.length) return;
   const was = music.playing;
   let next;
@@ -4375,13 +4364,14 @@ function playNextTrack() {
     next = (music.currentIndex + 1) % music.tracks.length;
   }
   loadTrack(next);
-  if (was) music.audioEl.play().catch(()=>{});
+  if (was || force) music.audioEl.play().catch(()=>{});
 }
-function playPrevTrack() {
+
+function playPrevTrack(force) {
   if (!music.tracks.length) return;
   const was = music.playing;
   loadTrack((music.currentIndex - 1 + music.tracks.length) % music.tracks.length);
-  if (was) music.audioEl.play().catch(()=>{});
+  if (was || force) music.audioEl.play().catch(()=>{});
 }
 function toggleMode() {
   const m = ['sequential','shuffle','single'];
@@ -4409,8 +4399,6 @@ const elChatOptions = document.getElementById('chatOptions');
 const elContactList = document.getElementById('contactList');
 const elViewContacts = document.getElementById('viewContacts');
 const elViewChat = document.getElementById('viewChat');
-const elBtnContacts = document.getElementById('btnContacts');
-const elBtnChat = document.getElementById('btnChat');
 const elTear = document.getElementById('crtTear');
 const elJumpBtn = document.getElementById('jumpLatestBtn');
 
@@ -4419,21 +4407,40 @@ function updateView() {
   if (state.view === 'contacts') {
     elViewContacts.style.display = 'flex';
     elViewChat.style.display = 'none';
-    elBtnContacts.dataset.active = 'true';
-    elBtnChat.dataset.active = 'false';
     renderContactList();
   } else {
     elViewContacts.style.display = 'none';
     elViewChat.style.display = 'flex';
-    elBtnContacts.dataset.active = 'false';
-    elBtnChat.dataset.active = 'true';
   }
-  if (chatBackBtn) chatBackBtn.style.display = isMobileLayout ? 'block' : 'none';
+  if (chatBackBtn) chatBackBtn.style.display = 'block';
   updateJumpButton();
   updateDebug();
 }
+function FORM_ASSISTANT_AVATAR() {
+  return `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#0a0f12"/>
+    <rect x="26" y="16" width="48" height="68" fill="none" stroke="#3d7ebd" stroke-width="3"/>
+    <line x1="36" y1="32" x2="64" y2="32" stroke="#3d7ebd" stroke-width="3"/>
+    <line x1="36" y1="46" x2="64" y2="46" stroke="#3d7ebd" stroke-width="3"/>
+    <line x1="36" y1="60" x2="56" y2="60" stroke="#3d7ebd" stroke-width="3"/></svg>`;
+}
+
 function renderContactList() {
   elContactList.innerHTML = '';
+
+  // 所有终端：列表最上方插入「表格助手」
+  const status = state.submittedForms[state.day] ? T('submitted') : T('pending');
+  const formItem = document.createElement('button');
+  formItem.className = 'contact-item form-assistant';
+  formItem.innerHTML = `
+    <span class="c-ava">${FORM_ASSISTANT_AVATAR()}</span>
+    <span class="c-meta">
+      <div class="c-name">${T('formAssistant')}</div>
+      <div class="c-role">${fmt(T('formAssistantSub'), { day: state.day, status })}</div>
+    </span>
+  `;
+  formItem.addEventListener('click', () => openForm());
+  elContactList.appendChild(formItem);
+
   const list = CHARACTERS_META.filter(c => state.unlocked.includes(c.id));
   list.forEach(ch => {
     const btn = document.createElement('button');
@@ -4451,7 +4458,6 @@ function renderContactList() {
     btn.addEventListener('click', () => { state.unread[ch.id] = false; enterChat(ch.id); });
     elContactList.appendChild(btn);
   });
-  if (!list.length) elContactList.innerHTML = `<div class="opt-wait" style="padding:20px 16px;">${T('noContacts')}</div>`;
 }
 
 function getEntryNode(charId) {
@@ -4749,14 +4755,7 @@ function unlockIntroNpcs() {
 function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
 
 function updateFormBtnVisibility() {
-  const btn = document.getElementById('formToggleBtn');
-  if (isMobileLayout) { btn.style.display = 'block'; return; }
-  const progress = state.progress['konosuke'] || '';
-  const hasSubmitted = !!state.submittedForms[state.day];
-  const reachedG3 = progress.includes('d1_k3') || progress.includes('d1_k4');
-  const anySubmitted = Object.keys(state.submittedForms).length > 0;
-  btn.style.display = (reachedG3 || hasSubmitted || anySubmitted) ? 'block' : 'none';
-  adjustLeftButtonPositions();
+  // 表格入口已改为「表格助手」联系人条目，无悬浮按钮需要控制
 }
 function updateMusicPlayerVisibility() {
   const mp = document.getElementById('musicPlayer');
@@ -4766,59 +4765,28 @@ function updateMusicPlayerVisibility() {
 }
 function updatePlayerNextDayBtnVisibility() {
   const btn = document.getElementById('playerNextDayBtn');
+  if (!btn) return;
   const show = Object.keys(state.submittedForms).length > 0 || state.day >= 2;
   btn.style.display = show ? 'block' : 'none';
-  if (!isMobileLayout) adjustLeftButtonPositions();
 }
 function adjustLeftButtonPositions() {
-  if (isMobileLayout) return;
-  const mp = document.getElementById('musicPlayer');
-  const formBtn = document.getElementById('formToggleBtn');
-  const nextBtn = document.getElementById('playerNextDayBtn');
-  if (!mp || !formBtn || !nextBtn) return;
-  const gap = 14, base = 26;
-  let cur = base;
-  if (mp.style.display !== 'none') cur += (mp.offsetHeight || 0) + gap;
-  nextBtn.style.bottom = cur + 'px';
-  if (nextBtn.style.display !== 'none') cur += (nextBtn.offsetHeight || 52) + gap;
-  formBtn.style.bottom = cur + 'px';
+  // 已无悬浮按钮需要动态定位
 }
 function setupResponsiveLayout(force) {
   const mobile = window.matchMedia('(max-width: 768px)').matches;
   const chatBackBtn = document.getElementById('chatBackBtn');
   if (!force && mobile === isMobileLayout) {
-    if (chatBackBtn) chatBackBtn.style.display = mobile ? 'block' : 'none';
+    if (chatBackBtn) chatBackBtn.style.display = 'block';
     return;
   }
   isMobileLayout = mobile;
 
-  const viewContacts = document.getElementById('viewContacts');
-  const screenTabs   = document.querySelector('.screen-tabs');
-  const formBtn      = document.getElementById('formToggleBtn');
-  const nextBtn      = document.getElementById('playerNextDayBtn');
-  const btnChat      = document.getElementById('btnChat');
-  const commsScreen  = document.getElementById('commsScreen');
+  if (chatBackBtn) chatBackBtn.style.display = 'block';
 
-  if (mobile) {
-    if (!formBtn._originalParent) formBtn._originalParent = formBtn.parentElement;
-    if (!nextBtn._originalParent) nextBtn._originalParent = nextBtn.parentElement;
-
-    // formBtn 放到 comms-screen 顶层（在 viewContacts 之前），聊天视图里也能看到
-    commsScreen.insertBefore(formBtn, viewContacts);
-    screenTabs.appendChild(nextBtn);
-    btnChat.style.display = 'none';
-    if (chatBackBtn) chatBackBtn.style.display = 'block';
-  } else {
-    if (formBtn._originalParent) formBtn._originalParent.appendChild(formBtn);
-    if (nextBtn._originalParent) nextBtn._originalParent.appendChild(nextBtn);
-    btnChat.style.display = '';
-    if (chatBackBtn) chatBackBtn.style.display = 'none';
-  }
-
-  updateFormBtnVisibility();
   updateMusicPlayerVisibility();
   updatePlayerNextDayBtnVisibility();
-  adjustLeftButtonPositions();
+
+  if (state.view === 'contacts') renderContactList();
 }
 function updateJumpButton() {
   if (!elJumpBtn) return;
@@ -4958,6 +4926,7 @@ function openForm() {
       if (day === 1 && answers.musicStyle && answers.musicLyrics) applyMusicPreference(answers);
       closeModal();
       updateFormToggle(); updateFormBtnVisibility(); updateMusicPlayerVisibility(); updatePlayerNextDayBtnVisibility();
+      if (state.view === 'contacts') renderContactList();
       doAutoSave(); updateDebug(); checkAchievements();
       if (day === 1 && state.chatChar === 'konosuke') {
         setTimeout(() => {
@@ -5090,8 +5059,26 @@ function buildSaveSnapshot() {
     chatChar: state.chatChar, autoSaveCursor: state.autoSaveCursor, introDone: state.introDone,
     preferredStyle: music.preferredStyle, preferredLyrics: music.preferredLyrics, musicMode: music.mode,
     achievements: [...state.achievements], dayEntryDone: JSON.parse(JSON.stringify(state.dayEntryDone || {})),
-    visitedNodes: JSON.parse(JSON.stringify(state.visitedNodes || {}))
+    visitedNodes: JSON.parse(JSON.stringify(state.visitedNodes || {})),
+    currentScene: state.currentScene
   };
+}
+function inferSceneFromState() {
+  const d = state.day;
+  if (d <= 1) return 'ship';
+  if (d >= 4) return 'ship';
+  if (d === 3) return 'stationNight';
+
+  // day 2：
+  // 若已完成血场景 → stationNight
+  const nightDone = visitedNode('hasebe','d2_b12')
+                 || visitedNode('mikazuki','d2_m13')
+                 || visitedNode('ichigo','d2_i15');
+  if (nightDone) return 'stationNight';
+  // 若已看过山姥切 d2_n6（触发了 scene:'stationDusk'）→ stationDusk
+  if (visitedNode('naginata','d2_n6')) return 'stationDusk';
+  // 其余默认 day 2 初始白昼
+  return 'stationDay';
 }
 function applySaveSnapshot(data) {
   state.lang = data.lang || 'zh';
@@ -5110,6 +5097,10 @@ function applySaveSnapshot(data) {
   state.dayEntryDone = data.dayEntryDone || {};
   state.visitedNodes = data.visitedNodes || {};
   state.view = 'contacts';
+
+  // ★ 恢复存档时的场景（旧存档没记录时退回 ship）
+  switchScene((data.currentScene && SCENES[data.currentScene]) ? data.currentScene : 'ship', true);
+
   if (data.preferredStyle) music.preferredStyle = data.preferredStyle;
   if (data.preferredLyrics) music.preferredLyrics = data.preferredLyrics;
   if (data.musicMode) music.mode = data.musicMode;
@@ -5352,6 +5343,7 @@ function resetGame() {
     if (state.typeTimer) { clearInterval(state.typeTimer); state.typeTimer = null; }
     if (state.messageTimer) { clearTimeout(state.messageTimer); state.messageTimer = null; }
     state.view = 'contacts';
+    switchScene('ship', true);
     music.allTracks = []; music.tracks = []; music.filterTag = null;
     music.preferredStyle = null; music.preferredLyrics = null;
     music.mode = 'sequential';
@@ -5437,14 +5429,6 @@ function init() {
   updateMpStatus();
   applyLanguageButtons();
 
-  elBtnContacts.addEventListener('click', () => { state.view = 'contacts'; updateView(); });
-  elBtnChat.addEventListener('click', () => {
-    if (!state.chatChar) {
-      const first = CHARACTERS_META.find(c => state.unlocked.includes(c.id));
-      if (first) enterChat(first.id); else { state.view = 'contacts'; updateView(); }
-    } else { state.view = 'chat'; enterChat(state.chatChar); }
-  });
-  document.getElementById('formToggleBtn').addEventListener('click', openForm);
   document.getElementById('playerNextDayBtn').addEventListener('click', nextDay);
   document.getElementById('resetBtn').addEventListener('click', resetGame);
   document.getElementById('menuBtn').addEventListener('click', openMenu);
