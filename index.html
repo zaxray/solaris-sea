@@ -805,7 +805,7 @@ const STORY_ZH = {
       d2_n1: { text: '来了？',
         extra: ['你的脸色很差劲。', '你见到了，对吗？你知道我指的是什么。'],
         options: [
-          { text: '嗯。你早就知道了？', next: 'd2_n2', condition: () => visitedNode('hasebe','d2_b9b') || visitedNode('mikazuki','d2_m9b') || visitedNode('ichigo','d2_i9') },
+          { text: '嗯。你早就知道了？', next: 'd2_n2', hideIf: () => !!state.spaceKilled },
           { text: '我杀了人……', next: 'd2_n2b', condition: () => !!state.spaceKilled }
         ] },
       d2_n2: { text: '我当然知道，但我没办法在一开始就告诉你，你也一定不会信。',
@@ -894,14 +894,14 @@ const STORY_ZH = {
         extra: ['但既然你如此激烈地表态了，那也不妨让我听一听你的想法吧。'],
         options: [
           { text: '这样做和杀死{partner}有什么区别？', next: 'd3_n2', condition: () => visitedNode('hasebe','d2_b9b') || visitedNode('mikazuki','d2_m9b') || visitedNode('ichigo','d2_i9') },
-          { text: '这样做和杀死{partner}有什么区别？', next: 'd3_n2b', condition: () => visitedNode('hasebe','d2_b9b') || visitedNode('mikazuki','d2_m9b') || visitedNode('ichigo','d2_i10') },
+          { text: '这样做和杀死{partner}有什么区别？', next: 'd3_n2b',  condition: () => !!state.spaceKilled },
           { text: '就没有其他方法，能让这颗星球聆听我们的感受吗？', next: 'd3_n2c' }
         ] },
       d3_n1b: { text: '没有。',
         extra: ['让我再重申一次：我们是隶属于时之政府的刀剑男士，对时之政府负责，受时之政府监督，严格来说，你无权干涉我们的行为。'],
         options: [
-          { text: '这样做和杀死{partner}有什么区别？', next: 'd3_n2', condition: () => visitedNode('hasebe','d2_b9b') || visitedNode('mikazuki','d2_m9b') || visitedNode('ichigo','d2_i9') },
-          { text: '这样做和杀死{partner}有什么区别？', next: 'd3_n2b', condition: () => visitedNode('hasebe','d2_b9b') || visitedNode('mikazuki','d2_m9b') || visitedNode('ichigo','d2_i10') },
+          { text: '这样做和杀死{partner}有什么区别？', next: 'd3_n2', hideIf: () => !!state.spaceKilled },
+          { text: '这样做和杀死{partner}有什么区别？', next: 'd3_n2b',  condition: () => !!state.spaceKilled  },
           { text: '真的没有其他方法，能让这颗星球聆听我们的感受吗？', next: 'd3_n2c' }
         ] },
       d3_n2: { text: '我知道，你非常好心，你不忍心下手，或者只是觉得这种事不值得弄脏你的双手，但我们不是。',
