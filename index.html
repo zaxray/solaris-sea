@@ -885,7 +885,7 @@ const STORY_ZH = {
         ] },
       d1_n6: { text: '他跟你说什么了？关于上一个审神者的事？',
         options: [
-          { text: '他说你经历过一些不太好的事', next: 'd1_n7', condition: () => visitedNode('doudanuki','d1_t3b') },
+          { text: '他说你经历过一些不太好的事', next: 'd1_n7', condition: () => visitedNode('doudanuki','d1_t3b') || visitedNode('doudanuki','d1_t3c') },
           { text: '他让我多走走看看', next: 'd1_n7b', condition: () => visitedNode('doudanuki','d1_t3') }
         ] },
       d1_n7: { text: '……他倒是嘴快。',
@@ -1437,7 +1437,7 @@ const STORY_ZH = {
       d2_i14b: { text: '就算您这样问……又想要得到什么样的回答呢？', extra: ['我……是和其他刀剑都不太一样的存在，这一点您也是知道的吧？', '所以，死去也好，成为拥有生前记忆的外星生命体也好，我都能轻易接受哦。', '也许那个幸运到与您结缘的我……那个一期一振，也许也是同样的存在，只是您永远地错过了和他互诉衷肠的时机。', '至于我……抱歉，比起真的替那个一期一振感到悲伤，首先涌上来的情绪是"窃喜"呢。', '我真是个卑劣的人，对吧？'],
         options: [{ text: '并没有哦', next: 'd2_i15' }, { text: '确实如此呢', next: 'd2_i15' }] },
       d2_i15: { text: '……', extra: ['请您陪我多待一会儿吧。', '只要……片刻……就好……', '……', '……'],
-        options: [{ text: '（结束通讯）', next: null, scene: 'stationNight' }] },
+        options: [], endScene: 'stationNight' },
       d3_i1: { text: '您醒了。', extra: ['嗯……虽然赖床没什么不好，但您果然还是在装睡吧？', '弟弟们偶尔也会为了逃开训练而作出类似的事……', '抱歉，又在不自觉地沿用那些从未经历过的记忆了。', '您很反感类似的行为，所以我会尽可能不去做类似的事的。'],
         options: [{ text: '这是你最真实的表现，没必要为它道歉', next: 'd3_i2', effect: { love: 1 } }, { text: '你应该牢牢记住你和他的差异', next: 'd3_i2b', effect: { paranoid: 1 } }] },
       d3_i2: { text: '这样啊。您对仿冒品也相当宽容呢。', extra: ['如果那个一期一振知道了您的真实想法，说不定也会为之欣喜呢。', '毕竟，我们都一样窃取了前一个一期一振的人生。', '……', '我们都一样做了相当卑劣的事情。', '那个一期一振也会像我一样不安吗？还是说，他会表面上一切如常，背地里却深深地被负罪感侵蚀呢？', '……我想，您的记忆和感受已经在相当一部分程度上接近真实了。', '您眼中的我……一期一振，原来就是这个样子。'],
@@ -5325,8 +5325,47 @@ function enterChat(charId) {
     if (entry) state.progress[charId] = entry;
     if (state.progress[charId]) { startNode(charId, state.progress[charId]); return; }
   }
+  // ★ 山姥切 day 1 重入：与同田贯、山姥切都完成过对话后再次进入 → d1_n5
+  if (charId === 'naginata'
+      && state.day === 1
+      && lastMsg && lastMsg.role === 'end'
+      && (state.history['doudanuki'] || []).some(m => m.role === 'end')
+      && (state.history['naginata'] || []).some(m => m.role === 'end')
+      && !visitedNode('naginata', 'd1_n5')
+      && !visitedNode('naginata', 'd1_n6')
+      && !visitedNode('naginata', 'd1_n6b')
+      && !visitedNode('naginata', 'd1_n7')
+      && !visitedNode('naginata', 'd1_n7b')) {
+    while (state.history[charId].length) {
+      const last = state.history[charId][state.history[charId].length - 1];
+      if (last.day === state.day && last.role === 'end') state.history[charId].pop();
+      else break;
+    }
+    startNode(charId, 'd1_n5');
+    return;
+  }
 
-
+  // ★ 山姥切 day 3 重入：完成山姥切、同田贯、近侍全部对话后再次进入 → d3_n6
+  if (charId === 'naginata'
+      && state.day === 3
+      && lastMsg && lastMsg.role === 'end'
+      && visitedNode('naginata', 'd3_n5b')
+      && !visitedNode('naginata', 'd3_n6')
+      && !visitedNode('naginata', 'd3_n8')
+      && !visitedNode('naginata', 'd3_n8b')) {
+    const doudanukiDone = (state.history['doudanuki'] || []).some(m => m.day === 3 && m.role === 'end');
+    const partner = state.selectedNpc;
+    const partnerDone = partner && (state.history[partner] || []).some(m => m.day === 3 && m.role === 'end');
+    if (doudanukiDone && partnerDone) {
+      while (state.history[charId].length) {
+        const last = state.history[charId][state.history[charId].length - 1];
+        if (last.day === state.day && last.role === 'end') state.history[charId].pop();
+        else break;
+      }
+      startNode(charId, 'd3_n6');
+      return;
+    }
+  }
   const NEAR_NPC_REENTRY = {
     hasebe:   { bloodEntry: 'd2_b10' },
     mikazuki: { bloodEntry: 'd2_m10' },
