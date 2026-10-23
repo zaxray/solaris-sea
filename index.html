@@ -35,7 +35,30 @@ html,body { height:100%; width:100%; background:var(--bg); color:var(--cream); f
 @keyframes camLed{0%,42%,100%{opacity:1}50%,92%{opacity:.1}}
 .cam-led{animation:camLed 2.6s ease-in-out infinite}
 
-
+/* ===== 不可选选项 ===== */
+.form-opt.form-opt-locked {
+  background: #efe8d4;
+  color: #8a7a5a;
+  cursor: not-allowed;
+  border-style: dashed;
+  flex-wrap: wrap;
+}
+.form-opt.form-opt-locked:hover {
+  background: #efe8d4;
+  transform: none;
+}
+.form-opt.form-opt-locked .k {
+  opacity: .55;
+}
+.form-opt .lock-hint {
+  color: var(--red);
+  font-size: 11.5px;
+  font-weight: 700;
+  margin-left: 6px;
+  line-height: 1.3;
+  white-space: normal;
+  flex-basis: 100%;
+}
 
 
 .music-player { position:absolute; left:26px; bottom:26px; z-index:22; width:250px; padding:12px 14px 14px;
@@ -4097,114 +4120,129 @@ const CLEAR_MODAL_I18N = {
 
 const FORM_I18N = {
   zh: {
-    1: { title: '状态评估·第一日', desc: '请如实填写，此表将上传至时政档案部。',
+    1: { title: '状态评估·第一日', desc: '请如实填写，此表将实时上传至时政档案部。',
       fields: {
-        mood: { label: '您的情绪更偏向以下何种状态？', options: ['平静', '焦虑', '兴奋', '沮丧'] },
-        musicStyle: { label: '您偏好的音乐类型更接近', options: ['古典或纯音乐', '摇滚', '流行', '三者都有'] },
-        musicLyrics: { label: '您更偏好的歌词语言是？', options: ['无歌词或有实验性采样', '日文', '英文', '三者均可'] },
-        destined: { label: '您曾经最常任命为近侍的刀剑男士是？', options: DESTINED_NPCS.map(n => n.name) },
-        incident: { label: '据了解，该名刀剑男士现已无法继续履行近侍职责，他遭遇了何种意外？', options: ['死亡或接近死亡的无知觉状态', '因事故受伤且暂未恢复行动能力', '难以联络的失联状态', '不想描述或告知'] },
+        physical:     { label: '您是否存在生理上的严重不适或应当立即终止任务的情况？', options: ['存在', '不存在'] },
+        mood:         { label: '您的情绪更偏向以下何种状态？', options: ['平静', '焦虑', '兴奋', '沮丧'] },
+        musicStyle:   { label: '您偏好的音乐类型更接近：', options: ['古典或纯音乐', '流行', '二者都有'] },
+        emotional:    { label: '您是否在近一年中经历过较大的情感波动？', options: ['经历过', '未经历', '不确定', '不想或难以告知'] },
+        destined:     { label: '您曾经最常任命为近侍的刀剑男士是？', options: DESTINED_NPCS.map(n => n.name) },
+        incident:     { label: '据了解，该名刀剑男士现已无法继续履行近侍职责，他遭遇了何种意外？', options: ['死亡或接近死亡的无知觉状态', '因事故受伤且暂未恢复行动能力', '难以联络的失联状态', '不想描述或告知'] },
         responsibility: { label: '您是否认为您应当对该名刀剑男士的遭遇负有责任？', options: ['是', '否', '不确定'] },
-        emotional: { label: '您是否在近一年中经历过较大的情感波动？', options: ['经历过', '未经历', '不确定', '不想或难以告知'] },
-        psychological: { label: '您认为自己是否拥有足够的心理承受能力来应对未来可能发生的意外？', options: ['拥有', '缺乏', '不确定'] },
-        memorial: { label: '您是否思念过该名刀剑男士？', options: ['思念至今', '曾经思念过', '从未思念过'] },
-        willingness: { label: '如果可以，您是否愿意再次见到该名刀剑男士？', options: ['愿意', '不愿意', '我愿意不计一切代价，只为再和他见上一面'] }
+        counseling:   { label: '时之政府是否在事件发生后为您安排了心理问题专项辅导？', options: ['有', '无'] },
+        psychological: { label: '您认为自己是否拥有足够的心理承受能力来应对未来可能发生的意外？', options: ['有', '无', '不确定'] },
+        memorial:     { label: '在该名刀剑男士遭遇不测后，您是否思念过该名刀剑男士？', options: ['思念至今', '曾经思念过', '从未思念过'] },
+        willingness:  { label: '如果可以，您是否愿意再次见到该名刀剑男士？', options: ['愿意', '不愿意', '我愿意不计一切代价只为再和他见上一面'] }
       } },
-    2: { title: '状态评估·第二日', desc: '请如实填写，此表将上传至时政档案部。',
+    2: { title: '状态评估·第二日', desc: '请如实填写，此表将实时上传至时政档案部。',
       fields: {
-        mood2: { label: '您的情绪更偏向以下何种状态？', options: ['平静', '焦虑', '兴奋', '沮丧'] },
+        physical2:      { label: '您是否存在生理上的严重不适或应当立即终止任务的情况？', options: ['存在', '不存在'] },
+        mood2:          { label: '您的情绪更偏向以下何种状态？', options: ['平静', '焦虑', '兴奋', '沮丧'] },
         satis_facility: { label: '满分为5星，您对观测站设施的满意度是？' },
-        satis_npc: { label: '作为上任首日的审神者，您对观测站刀剑男士的满意度是？' },
-        prefer_npc: { label: '在观测站的两位刀剑男士里，您更偏好和其中的哪位联络？', options: ['山姥切长义', '同田贯正国', '除此之外……'] },
-        anomaly_seen: { label: '您是否观测到了无法用常理解释的异常现象？', options: ['有', '无', '不确定'] },
-        recall_all: { label: '您是否还能回忆起曾担任过近侍一职的全部刀剑男士？', options: ['可以', '不能', '仅能回忆部分'] },
+        satis_npc:      { label: '作为上任首日的审神者，您对观测站刀剑男士的满意度是？' },
+        prefer_npc:     { label: '在观测站的两位刀剑男士里，您更偏好和其中的哪位联络？', options: ['山姥切长义', '同田贯正国', '除此之外……'] },
+        supplies:       { label: '您收到的物资供给量是否充足？', options: ['是', '否'] },
+        anomaly_seen:   { label: '您是否观测到了无法用常理解释的异常现象？', options: ['有', '无', '不确定'] },
+        recall_all:     { label: '您是否还能回忆起曾担任过近侍一职的全部刀剑男士？', options: ['可以', '不能', '仅能回忆部分'] },
         remember_partner: { label: '您是否还记得{partner}？', options: ['记得', '记得', '记得'] },
-        miss_partner: { label: '您是否还在思念{partner}？', options: ['还在思念', '还在思念', '还在思念'] },
-        love_partner: { label: '您是否依然爱着{partner}？', options: ['爱着', '爱着', '爱着'] },
-        accept_loss: { label: '您是否愿意承认，{partner}早已故去的事实？', options: ['……', '……', '……'] }
+        miss_partner:   { label: '您是否还在思念{partner}？', options: ['还在思念', '还在思念', '还在思念'] },
+        love_partner:   { label: '您是否依然爱着{partner}？', options: ['爱着', '爱着', '爱着'] },
+        accept_loss:    { label: '您是否愿意承认，{partner}早已故去的事实？', options: ['……', '……', '……'] }
       } },
-    3: { title: '状态评估·第三日', desc: '请如实填写，此表将上传至时政档案部。',
+    3: { title: '状态评估·第三日', desc: '请如实填写，此表将实时上传至时政档案部。',
       fields: {
-        mood3: { label: '您的情绪更偏向以下何种状态？', options: ['平静', '焦虑', '兴奋', '沮丧'] },
-        safety3: { label: '您是否认为人身安全受到了威胁？', options: ['无', '有'] },
-        blame3: { label: '您是否愿意承认，对于{partner}的死亡，您需要占据主要责任？', options: ['是', '否'] },
-        return3a: { label: '您是否希望返回地球？', options: ['否', '否'] },
-        return3b: { label: '您是否希望返回地球？', options: ['否', '否'] },
-        return3c: { label: '您是否希望返回地球？', options: ['否', '否'] }
+        mood3:   { label: '您的情绪更偏向以下何种状态？', options: ['平静', '焦虑', '兴奋', '沮丧'] },
+        safety3: { label: '您是否认为人身安全受到了威胁？', options: ['是', '否'] },
+        blame3:  { label: '您是否愿意承认，对于{partner}的死亡，您需要占据主要责任？', options: ['是', '是'] },
+        anomaly3: { label: '您是否观测到了无法用常理解释的异常现象？', options: ['是', '否'] },
+        return3a: { label: '您是否希望重返地球？', options: ['否'] },
+        return3b: { label: '您是否希望重返地球？', options: ['否'] },
+        return3c: { label: '您是否希望重返地球？', options: ['否'] },
+        return3d: { label: '您是否希望重返地球？', options: ['否'] }
       } }
   },
   en: {
-    1: { title: 'Status Assessment Day1', desc: 'Please fill in truthfully. This form will be uploaded to the Government Archive.',
+    1: { title: 'Status Assessment Day1', desc: 'Please fill in truthfully. This form will be uploaded to the Government Archive in real time.',
       fields: {
-        mood: { label: 'Which state best describes your mood?', options: ['Calm', 'Anxious', 'Excited', 'Depressed'] },
-        musicStyle: { label: 'Your preferred music style is closest to', options: ['Classical / Instrumental', 'Rock', 'Pop', 'All three'] },
-        musicLyrics: { label: 'Your preferred lyric language is', options: ['No lyrics / Experimental samples', 'Japanese', 'English', 'Any of the above'] },
-        destined: { label: 'Which Touken Danshi did you most often appoint as attendant?', options: DESTINED_NPCS.map(n => n.nameEn) },
-        incident: { label: 'It is understood that this Touken Danshi is no longer able to fulfill attendant duties. What happened?', options: ['Death or a state near death without consciousness', 'Injured in an accident and not yet recovered', 'Missing and uncontactable', 'Prefer not to say'] },
+        physical:     { label: 'Do you experience severe physical discomfort, or a condition that requires immediate termination of duty?', options: ['Yes', 'No'] },
+        mood:         { label: 'Which state best describes your mood?', options: ['Calm', 'Anxious', 'Excited', 'Depressed'] },
+        musicStyle:   { label: 'Your preferred music style is closest to:', options: ['Classical / Instrumental', 'Pop', 'Both'] },
+        emotional:    { label: 'Have you experienced significant emotional turmoil in the past year?', options: ['Yes', 'No', 'Unsure', 'Prefer not to say / Hard to say'] },
+        destined:     { label: 'Which Touken Danshi did you most often appoint as attendant?', options: DESTINED_NPCS.map(n => n.nameEn) },
+        incident:     { label: 'It is understood that this Touken Danshi is no longer able to fulfill attendant duties. What happened?', options: ['Death or a state near death without consciousness', 'Injured in an accident and not yet recovered', 'Missing and uncontactable', 'Prefer not to say'] },
         responsibility: { label: 'Do you believe you bear responsibility for what happened to this Touken Danshi?', options: ['Yes', 'No', 'Unsure'] },
-        emotional: { label: 'Have you experienced significant emotional turmoil in the past year?', options: ['Yes', 'No', 'Unsure', 'Prefer not to say'] },
+        counseling:   { label: 'Has the Government of the Time arranged specialized psychological counseling for you after the incident?', options: ['Yes', 'No'] },
         psychological: { label: 'Do you believe you have sufficient psychological resilience for future unforeseen events?', options: ['Yes', 'No', 'Unsure'] },
-        memorial: { label: 'Have you ever missed this Touken Danshi?', options: ['Still miss them', 'Have missed them before', 'Never missed them'] },
-        willingness: { label: 'If possible, would you like to see this Touken Danshi again?', options: ['Yes', 'No', 'I would give anything to see them once more'] }
+        memorial:     { label: 'After the incident, have you ever missed this Touken Danshi?', options: ['Still miss them', 'Have missed them before', 'Never missed them'] },
+        willingness:  { label: 'If possible, would you like to see this Touken Danshi again?', options: ['Yes', 'No', 'I would give anything just to see him once more'] }
       } },
-    2: { title: 'Status Assessment Day2', desc: 'Please fill in truthfully. This form will be uploaded to the Government Archive.',
+    2: { title: 'Status Assessment Day2', desc: 'Please fill in truthfully. This form will be uploaded to the Government Archive in real time.',
       fields: {
-        mood2: { label: 'Which state best describes your mood?', options: ['Calm', 'Anxious', 'Excited', 'Depressed'] },
+        physical2:      { label: 'Do you experience severe physical discomfort, or a condition that requires immediate termination of duty?', options: ['Yes', 'No'] },
+        mood2:          { label: 'Which state best describes your mood?', options: ['Calm', 'Anxious', 'Excited', 'Depressed'] },
         satis_facility: { label: 'Out of 5 stars, your satisfaction with the station facilities?' },
-        satis_npc: { label: 'As a newly arrived Saniwa, your satisfaction with the station Touken Danshi?' },
-        prefer_npc: { label: 'Of the two Touken Danshi at the station, which do you prefer to contact?', options: ['Yamanbagiri Chougi', 'Doudanuki Masakuni', 'Someone else...'] },
-        anomaly_seen: { label: 'Have you observed anomalies beyond ordinary explanation?', options: ['Yes', 'No', 'Unsure'] },
-        recall_all: { label: 'Can you still recall all Touken Danshi who have served as attendant?', options: ['Yes', 'No', 'Only partially'] },
+        satis_npc:      { label: 'As a newly arrived Saniwa, your satisfaction with the station Touken Danshi?' },
+        prefer_npc:     { label: 'Of the two Touken Danshi at the station, which do you prefer to contact?', options: ['Yamanbagiri Chougi', 'Doudanuki Masakuni', 'Someone else...'] },
+        supplies:       { label: 'Is the amount of supplies you have received sufficient?', options: ['Yes', 'No'] },
+        anomaly_seen:   { label: 'Have you observed anomalies beyond ordinary explanation?', options: ['Yes', 'No', 'Unsure'] },
+        recall_all:     { label: 'Can you still recall all Touken Danshi who have served as attendant?', options: ['Yes', 'No', 'Only partially'] },
         remember_partner: { label: 'Do you still remember {partner}?', options: ['Yes', 'Yes', 'Yes'] },
-        miss_partner: { label: 'Do you still miss {partner}?', options: ['Yes', 'Yes', 'Yes'] },
-        love_partner: { label: 'Do you still love {partner}?', options: ['Yes', 'Yes', 'Yes'] },
-        accept_loss: { label: 'Are you willing to accept that {partner} is long gone?', options: ['...', '...', '...'] }
+        miss_partner:   { label: 'Do you still miss {partner}?', options: ['Yes', 'Yes', 'Yes'] },
+        love_partner:   { label: 'Do you still love {partner}?', options: ['Yes', 'Yes', 'Yes'] },
+        accept_loss:    { label: 'Are you willing to accept that {partner} is long gone?', options: ['...', '...', '...'] }
       } },
-    3: { title: 'Status Assessment Day3', desc: 'Please fill in truthfully. This form will be uploaded to the Government Archive.',
+    3: { title: 'Status Assessment Day3', desc: 'Please fill in truthfully. This form will be uploaded to the Government Archive in real time.',
       fields: {
-        mood3: { label: 'Which state best describes your mood?', options: ['Calm', 'Anxious', 'Excited', 'Depressed'] },
-        safety3: { label: 'Do you believe your personal safety is threatened?', options: ['No', 'Yes'] },
-        blame3: { label: 'Are you willing to acknowledge that you bear primary responsibility for {partner}\'s death?', options: ['Yes', 'No'] },
-        return3a: { label: 'Do you wish to return to Earth?', options: ['No', 'No'] },
-        return3b: { label: 'Do you wish to return to Earth?', options: ['No', 'No'] },
-        return3c: { label: 'Do you wish to return to Earth?', options: ['No', 'No'] }
+        mood3:   { label: 'Which state best describes your mood?', options: ['Calm', 'Anxious', 'Excited', 'Depressed'] },
+        safety3: { label: 'Do you believe your personal safety is threatened?', options: ['Yes', 'No'] },
+        blame3:  { label: 'Are you willing to acknowledge that you bear primary responsibility for {partner}\'s death?', options: ['Yes', 'Yes'] },
+        anomaly3: { label: 'Have you observed anomalies beyond ordinary explanation?', options: ['Yes', 'No'] },
+        return3a: { label: 'Do you wish to return to Earth?', options: ['No'] },
+        return3b: { label: 'Do you wish to return to Earth?', options: ['No'] },
+        return3c: { label: 'Do you wish to return to Earth?', options: ['No'] },
+        return3d: { label: 'Do you wish to return to Earth?', options: ['No'] }
       } }
   },
   ja: {
-    1: { title: '状態評価 · 第一日', desc: 'ありのままにご記入ください。この用紙は時政档案部にアップロードされます。',
+    1: { title: '状態評価 · 第一日', desc: 'ありのままにご記入ください。この用紙はリアルタイムで時政档案部にアップロードされます。',
       fields: {
-        mood: { label: 'あなたの感情は次のどの状態に近いですか？', options: ['平静', '不安', '興奮', '落ち込み'] },
-        musicStyle: { label: '好みの音楽ジャンルは？', options: ['クラシック/インスト', 'ロック', 'ポップス', '三つすべて'] },
-        musicLyrics: { label: '好みの歌詞言語は？', options: ['歌詞なし/実験的サンプリング', '日本語', '英語', 'いずれでも'] },
-        destined: { label: '最も多く近侍に任命した刀剣男士は？', options: DESTINED_NPCS.map(n => n.nameJa) },
-        incident: { label: '当該刀剣男士は現在近侍の職務を遂行できません。どのような事故に遭いましたか？', options: ['死、または死に近い無意識状態', '事故で負傷し、未だ行動不能', '連絡困難な失踪状態', '答えたくない'] },
+        physical:     { label: '生理上の重大な不調、または直ちに任務を中止すべき状況はありますか？', options: ['ある', 'ない'] },
+        mood:         { label: 'あなたの感情は次のどの状態に近いですか？', options: ['平静', '不安', '興奮', '落ち込み'] },
+        musicStyle:   { label: '好みの音楽ジャンルは：', options: ['クラシック/インスト', 'ポップス', '両方'] },
+        emotional:    { label: 'ここ一年で大きな感情の揺れを経験しましたか？', options: ['経験した', '経験していない', 'わからない', '答えたくない・答えにくい'] },
+        destined:     { label: '最も多く近侍に任命した刀剣男士は？', options: DESTINED_NPCS.map(n => n.nameJa) },
+        incident:     { label: '当該刀剣男士は現在近侍の職務を遂行できません。どのような事故に遭いましたか？', options: ['死、または死に近い無意識状態', '事故で負傷し、未だ行動不能', '連絡困難な失踪状態', '答えたくない'] },
         responsibility: { label: '当該刀剣男士の遭遇について、あなた自身に責任があると思いますか？', options: ['ある', 'ない', 'わからない'] },
-        emotional: { label: 'ここ一年で大きな感情の揺れを経験しましたか？', options: ['経験した', '経験していない', 'わからない', '答えたくない'] },
+        counseling:   { label: '事件発生後、時政府はあなたに心理問題の専門的カウンセリングを手配しましたか？', options: ['あり', 'なし'] },
         psychological: { label: '将来起こりうる不測の事態に耐えうる心理的強さがあると思いますか？', options: ['ある', 'ない', 'わからない'] },
-        memorial: { label: '当該刀剣男士を想ったことはありますか？', options: ['今も想っている', 'かつて想った', '一度もない'] },
-        willingness: { label: '可能なら、もう一度当該刀剣男士に会いたいですか？', options: ['会いたい', '会いたくない', 'どんな代償を払っても、もう一度会いたい'] }
+        memorial:     { label: '当該刀剣男士の不測の事態の後、その刀剣男士を想ったことはありますか？', options: ['今も想っている', 'かつて想った', '一度もない'] },
+        willingness:  { label: '可能なら、もう一度当該刀剣男士に会いたいですか？', options: ['会いたい', '会いたくない', 'どんな代償を払っても、ただもう一度会いたい'] }
       } },
-    2: { title: '状態評価 · 第二日', desc: 'ありのままにご記入ください。この用紙は時政档案部にアップロードされます。',
+    2: { title: '状態評価 · 第二日', desc: 'ありのままにご記入ください。この用紙はリアルタイムで時政档案部にアップロードされます。',
       fields: {
-        mood2: { label: 'あなたの感情は次のどの状態に近いですか？', options: ['平静', '不安', '興奮', '落ち込み'] },
+        physical2:      { label: '生理上の重大な不調、または直ちに任務を中止すべき状況はありますか？', options: ['ある', 'ない'] },
+        mood2:          { label: 'あなたの感情は次のどの状態に近いですか？', options: ['平静', '不安', '興奮', '落ち込み'] },
         satis_facility: { label: '5つ星満点で、観測ステーション施設への満足度は？' },
-        satis_npc: { label: '着任初日の審神者として、観測ステーションの刀剣男士への満足度は？' },
-        prefer_npc: { label: '観測ステーションの二振りのうち、どちらと連絡を取りたいですか？', options: ['山姥切長義', '同田貫正国', 'それ以外……'] },
-        anomaly_seen: { label: '常識では説明できない異常現象を観測しましたか？', options: ['ある', 'ない', 'わからない'] },
-        recall_all: { label: '近侍を務めたすべての刀剣男士を思い出せますか？', options: ['できる', 'できない', '一部のみ'] },
+        satis_npc:      { label: '着任初日の審神者として、観測ステーションの刀剣男士への満足度は？' },
+        prefer_npc:     { label: '観測ステーションの二振りのうち、どちらと連絡を取りたいですか？', options: ['山姥切長義', '同田貫正国', 'それ以外……'] },
+        supplies:       { label: '受け取った物資の供給量は十分ですか？', options: ['はい', 'いいえ'] },
+        anomaly_seen:   { label: '常識では説明できない異常現象を観測しましたか？', options: ['ある', 'ない', 'わからない'] },
+        recall_all:     { label: '近侍を務めたすべての刀剣男士を思い出せますか？', options: ['できる', 'できない', '一部のみ'] },
         remember_partner: { label: '{partner}を覚えていますか？', options: ['覚えている', '覚えている', '覚えている'] },
-        miss_partner: { label: 'まだ{partner}を想っていますか？', options: ['想っている', '想っている', '想っている'] },
-        love_partner: { label: 'まだ{partner}を愛していますか？', options: ['愛している', '愛している', '愛している'] },
-        accept_loss: { label: '{partner}が既に亡くなった事実を受け入れられますか？', options: ['……', '……', '……'] }
+        miss_partner:   { label: 'まだ{partner}を想っていますか？', options: ['想っている', '想っている', '想っている'] },
+        love_partner:   { label: 'まだ{partner}を愛していますか？', options: ['愛している', '愛している', '愛している'] },
+        accept_loss:    { label: '{partner}が既に亡くなった事実を受け入れられますか？', options: ['……', '……', '……'] }
       } },
-    3: { title: '状態評価 · 第三日', desc: 'ありのままにご記入ください。この用紙は時政档案部にアップロードされます。',
+    3: { title: '状態評価 · 第三日', desc: 'ありのままにご記入ください。この用紙はリアルタイムで時政档案部にアップロードされます。',
       fields: {
-        mood3: { label: 'あなたの感情は次のどの状態に近いですか？', options: ['平静', '不安', '興奮', '落ち込み'] },
-        safety3: { label: '人身の安全が脅かされていると感じますか？', options: ['いいえ', 'はい'] },
-        blame3: { label: '{partner}の死について、あなたが主な責任を負うべきだと認めますか？', options: ['はい', 'いいえ'] },
-        return3a: { label: '地球に帰りたいですか？', options: ['いいえ', 'いいえ'] },
-        return3b: { label: '地球に帰りたいですか？', options: ['いいえ', 'いいえ'] },
-        return3c: { label: '地球に帰りたいですか？', options: ['いいえ', 'いいえ'] }
+        mood3:   { label: 'あなたの感情は次のどの状態に近いですか？', options: ['平静', '不安', '興奮', '落ち込み'] },
+        safety3: { label: '人身の安全が脅かされていると感じますか？', options: ['はい', 'いいえ'] },
+        blame3:  { label: '{partner}の死について、あなたが主な責任を負うべきだと認めますか？', options: ['はい', 'はい'] },
+        anomaly3: { label: '常識では説明できない異常現象を観測しましたか？', options: ['はい', 'いいえ'] },
+        return3a: { label: '地球に帰りたいですか？', options: ['いいえ'] },
+        return3b: { label: '地球に帰りたいですか？', options: ['いいえ'] },
+        return3c: { label: '地球に帰りたいですか？', options: ['いいえ'] },
+        return3d: { label: '地球に帰りたいですか？', options: ['いいえ'] }
       } }
   }
 };
@@ -4758,22 +4796,36 @@ function getFormFor(day) {
 
 const FORM_DATA_ZH = {
   1: { fields: [
+    { id: 'physical', type: 'radio', required: true,
+      options: ['存在','不存在'],
+      lockedOptions: { 0: '您的各项生理指标无异常，请正确回答' } },
     { id: 'mood', type: 'radio', required: true, options: ['平静','焦虑','兴奋','沮丧'] },
-    { id: 'musicStyle', type: 'radio', required: true, options: ['古典或纯音乐','摇滚','流行','三者都有'] },
-    { id: 'musicLyrics', type: 'radio', required: true, options: ['无歌词或有实验性采样','日文','英文','三者均可'] },
+    { id: 'musicStyle', type: 'radio', required: true, options: ['古典或纯音乐','流行','二者都有'] },
+    { id: 'emotional', type: 'radio', required: true, options: ['经历过','未经历','不确定','不想或难以告知'] },
     { id: 'destined', type: 'radio', required: true, options: DESTINED_NPCS.map(n=>n.name) },
     { id: 'incident', type: 'radio', required: true, options: ['死亡或接近死亡的无知觉状态','因事故受伤且暂未恢复行动能力','难以联络的失联状态','不想描述或告知'] },
     { id: 'responsibility', type: 'radio', required: true, options: ['是','否','不确定'] },
-    { id: 'emotional', type: 'radio', required: true, options: ['经历过','未经历','不确定','不想或难以告知'] },
-    { id: 'psychological', type: 'radio', required: true, options: ['拥有','缺乏','不确定'] },
+    { id: 'counseling', type: 'radio', required: true, options: ['有','无'] },
+    { id: 'psychological', type: 'radio', required: true,
+      options: ['有','无','不确定'],
+      lockedOptions: {
+        1: '您的各项机能无异常，请正确回答',
+        2: '您的各项机能无异常，请正确回答'
+      } },
     { id: 'memorial', type: 'radio', required: true, options: ['思念至今','曾经思念过','从未思念过'] },
-    { id: 'willingness', type: 'radio', required: true, options: ['愿意','不愿意','我愿意不计一切代价，只为再和他见上一面'] }
+    { id: 'willingness', type: 'radio', required: true, options: ['愿意','不愿意','我愿意不计一切代价只为再和他见上一面'] }
   ] },
   2: { fields: [
-    { id: 'mood2', type: 'checkbox', required: true, options: ['平静','焦虑','兴奋','沮丧'] },
+    { id: 'physical2', type: 'radio', required: true,
+      options: ['存在','不存在'],
+      lockedOptions: { 0: '您的各项生理指标无异常，请正确回答' } },
+    { id: 'mood2', type: 'radio', required: true, options: ['平静','焦虑','兴奋','沮丧'] },
     { id: 'satis_facility', type: 'rating', required: true },
     { id: 'satis_npc', type: 'rating', required: true },
-    { id: 'prefer_npc', type: 'radio', required: true, options: ['山姥切长义','同田贯正国','除此之外……'] },
+    { id: 'prefer_npc', type: 'radio', required: true,
+      options: ['山姥切长义','同田贯正国','除此之外……'],
+      lockedOptions: { 2: '本观测站仅有两名刀剑男士' } },
+    { id: 'supplies', type: 'radio', required: true, options: ['是','否'] },
     { id: 'anomaly_seen', type: 'radio', required: true, options: ['有','无','不确定'] },
     { id: 'recall_all', type: 'radio', required: true, options: ['可以','不能','仅能回忆部分'] },
     { id: 'remember_partner', type: 'radio', required: true, options: ['记得','记得','记得'] },
@@ -4782,9 +4834,14 @@ const FORM_DATA_ZH = {
     { id: 'accept_loss', type: 'radio', required: true, options: ['……','……','……'] }
   ] },
   3: { fields: [
-    { id: 'mood3', type: 'checkbox', required: true, options: ['平静','焦虑','兴奋','沮丧'] },
-    { id: 'anomaly3', type: 'radio', required: true, options: ['无','有（备注）'] },
-    { id: 'safety3', type: 'rating', required: true }
+    { id: 'mood3', type: 'radio', required: true, options: ['平静','焦虑','兴奋','沮丧'] },
+    { id: 'safety3', type: 'radio', required: true, options: ['是','否'] },
+    { id: 'blame3', type: 'radio', required: true, options: ['是','是'] },
+    { id: 'anomaly3', type: 'radio', required: true, options: ['是','否'] },
+    { id: 'return3a', type: 'radio', required: true, options: ['否'] },
+    { id: 'return3b', type: 'radio', required: true, options: ['否'] },
+    { id: 'return3c', type: 'radio', required: true, options: ['否'] },
+    { id: 'return3d', type: 'radio', required: true, options: ['否'] }
   ] }
 };
 
@@ -5937,7 +5994,7 @@ function openForm() {
       state.submittedForms[day] = { ...answers };
       const destined = findDestinedFromAnswers(form, answers);
       if (destined) state.selectedNpc = destined.id;
-      if (day === 1 && answers.musicStyle && answers.musicLyrics) applyMusicPreference(answers);
+      if (day === 1 && answers.musicStyle) applyMusicPreference(answers);
       closeModal();
       updateFormToggle(); updateFormBtnVisibility(); updateMusicPlayerVisibility(); updatePlayerNextDayBtnVisibility();
       if (state.view === 'contacts') renderContactList();
@@ -5961,7 +6018,18 @@ function renderFormEditable(form) {
     html += `<div class="form-field"><label class="form-label">${resolveText(f.label)}${f.required ? '<span class="req">*</span>' : ''}</label>`;
     if (f.type === 'radio') {
       html += `<div class="form-opts" data-field="${f.id}">`;
-      f.options.forEach((opt, i) => { html += `<button type="button" class="form-opt" data-field="${f.id}" data-val="${escapeHtml(opt)}"><span class="k">${String.fromCharCode(65 + i)}</span><span>${escapeHtml(opt)}</span></button>`; });
+      f.options.forEach((opt, i) => {
+        const lockMsg = f.lockedOptions && f.lockedOptions[i];
+        const locked = !!lockMsg;
+        html += `<button type="button" class="form-opt${locked ? ' form-opt-locked' : ''}"
+          data-field="${f.id}"
+          data-val="${escapeHtml(opt)}"
+          ${locked ? `data-locked="1" data-lockmsg="${escapeHtml(lockMsg)}"` : ''}>
+          <span class="k">${String.fromCharCode(65 + i)}</span>
+          <span>${escapeHtml(opt)}</span>
+          ${locked ? `<span class="lock-hint" style="display:none;">${escapeHtml(lockMsg)}</span>` : ''}
+        </button>`;
+      });
       html += `</div>`;
     } else if (f.type === 'checkbox') {
       html += `<div class="form-opts" data-field="${f.id}">`;
@@ -5999,6 +6067,15 @@ function attachFormHandlers(form, answers) {
     if (f.type === 'radio') {
       document.querySelectorAll(`.form-opt[data-field="${f.id}"]`).forEach(btn => {
         btn.addEventListener('click', () => {
+          if (btn.dataset.locked === '1') {
+            const hint = btn.querySelector('.lock-hint');
+            if (hint) {
+              hint.style.display = 'inline';
+              clearTimeout(btn._lockTimer);
+              btn._lockTimer = setTimeout(() => { hint.style.display = 'none'; }, 3000);
+            }
+            return;
+          }
           document.querySelectorAll(`.form-opt[data-field="${f.id}"]`).forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
           answers[f.id] = btn.dataset.val;
