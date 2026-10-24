@@ -5989,13 +5989,21 @@ function openForm() {
   }
   submitBtn._refreshValid = refreshValid;
   refreshValid();
-  submitBtn.addEventListener('click', () => {
+    submitBtn.addEventListener('click', () => {
     confirmDialog(T('confirmOverwrite'), () => {
       state.submittedForms[day] = { ...answers };
       const destined = findDestinedFromAnswers(form, answers);
       if (destined) state.selectedNpc = destined.id;
       if (day === 1 && answers.musicStyle) applyMusicPreference(answers);
       closeModal();
+      // ★ Day 1 提交表格后立即解锁两位政府刀（不再依赖 konosuke 对话流程）
+      if (day === 1) {
+        ['naginata','doudanuki'].forEach(id => {
+          if (!state.unlocked.includes(id)) { state.unlocked.push(id); state.unread[id] = true; }
+        });
+        state.introDone = true;
+        setTimeout(() => switchScene('stationDay'), 400);
+      }
       updateFormToggle(); updateFormBtnVisibility(); updateMusicPlayerVisibility(); updatePlayerNextDayBtnVisibility();
       if (state.view === 'contacts') renderContactList();
       doAutoSave(); updateDebug(); checkAchievements();
@@ -6458,7 +6466,20 @@ function doNextDay() {
   state.progress = {};
   state.dayEntryDone = {};
   let newlyUnlocked = null;
+
+  // ★ 兜底：进入 Day 2 时确保两位政府刀一定在联系人里
+  // ★ 兜底：进入 Day 2 时确保两位政府刀一定在联系人里，并切到观测站白昼
   if (state.day === 2) {
+    ['naginata','doudanuki'].forEach(id => {
+      if (!state.unlocked.includes(id)) { state.unlocked.push(id); state.unread[id] = true; }
+    });
+    state.introDone = true;
+
+    // ★ 若仍停留在航天器场景（说明 Day 1 从未触发过场景切换），切到观测站白昼
+    if (state.currentScene === 'ship' || !state.currentScene) {
+      switchScene('stationDay');
+    }
+
     const npcId = resolveSelectedNpc();
     if (npcId && !state.unlocked.includes(npcId)) {
       state.unlocked.push(npcId);
@@ -6466,6 +6487,7 @@ function doNextDay() {
       newlyUnlocked = npcId;
     }
   }
+
   if (state.day === 4) {
     state.unlocked = ['saniwa'];
     state.view = 'contacts';
@@ -6507,10 +6529,18 @@ function resetGame() {
     if (state.messageTimer) { clearTimeout(state.messageTimer); state.messageTimer = null; }
     state.view = 'contacts';
     switchScene('ship', true);
-    music.allTracks = []; music.tracks = []; music.filterTag = null;
-    music.preferredStyle = null; music.preferredLyrics = null;
+    // ★ 重置音乐状态并重新加载默认曲库（否则二周目显示「共 0 首」）
+    music.allTracks = [];
+    music.tracks = [];
+    music.filterTag = null;
+    music.currentIndex = 0;
+    music.playing = false;
+    music.preferredStyle = null;
+    music.preferredLyrics = null;
     music.mode = 'sequential';
-    music.audioEl.pause(); music.audioEl.removeAttribute('src');
+    try { music.audioEl.pause(); } catch (e) {}
+    try { music.audioEl.removeAttribute('src'); } catch (e) {}
+    loadMusicLibrary();   // 内部会调用 recomputeTracks() 并刷新 UI
     updateView(); updateFormToggle(); updateFormBtnVisibility(); updateMusicPlayerVisibility(); updatePlayerNextDayBtnVisibility();
     updateMpStatus(); updateDebug();
     setTimeout(() => enterChat('konosuke'), 300);
